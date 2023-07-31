@@ -19,7 +19,7 @@
     * Email adress
     * Games played count
     * games won/lost count
-    * correct/wrong guess count
+    * correct/wrong guess count 
     * highest achieved score
 
 ### Basic requirements:
