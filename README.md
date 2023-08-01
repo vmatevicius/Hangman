@@ -16,6 +16,7 @@
     * Username
     * Name
     * Surname
+    * Password
     * Email adress
     * Games played count
     * games won/lost count
