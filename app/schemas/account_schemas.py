@@ -8,13 +8,7 @@ class AccountCreate(BaseModel):
     name: str
     surname: str
     password: str
-    email_adress: EmailStr
-    games_played_count: int
-    games_won_count: int
-    games_lost_count: int
-    correct_guess_count: int
-    wrong_guess_count: int
-    highest_achieved_score: int
+    email: EmailStr
 
     class Config:
         from_attributes = True
@@ -24,13 +18,7 @@ class AccountCreate(BaseModel):
                 "name": "Antantas",
                 "surname": "Fontanas",
                 "password": "1234",
-                "email_adress": "antantas123@gmail.com",
-                "games_played_count": 0,
-                "games_won_count": 0,
-                "games_lost_count": 0,
-                "correct_guess_count": 0,
-                "wrong_guess_count": 0,
-                "highest_achieved_score": 0,
+                "email": "antantas123@gmail.com",
             }
         }
 
@@ -41,7 +29,7 @@ class AccountResponse(BaseModel):
     name: str
     surname: str
     password: str
-    email_adress: EmailStr
+    email: EmailStr
     games_played_count: int
     games_won_count: int
     games_lost_count: int
@@ -58,7 +46,7 @@ class AccountResponse(BaseModel):
                 "name": "Antantas",
                 "surname": "Fontanas",
                 "password": "1234",
-                "email_adress": "antantas123@gmail.com",
+                "email": "antantas123@gmail.com",
                 "games_played_count": 0,
                 "games_won_count": 0,
                 "games_lost_count": 0,
@@ -74,7 +62,7 @@ class AccountUpdate(BaseModel):
     name: Optional[str]
     surname: Optional[str]
     password: Optional[str]
-    email_adress: Optional[EmailStr]
+    email: Optional[EmailStr]
     games_played_count: Optional[int]
     games_won_count: Optional[int]
     games_lost_count: Optional[int]
@@ -90,7 +78,7 @@ class AccountUpdate(BaseModel):
                 "name": "Antantas",
                 "surname": "Fontanas",
                 "password": "1234",
-                "email_adress": "antantas123@gmail.com",
+                "email": "antantas123@gmail.com",
                 "games_played_count": 0,
                 "games_won_count": 0,
                 "games_lost_count": 0,

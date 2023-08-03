@@ -12,13 +12,7 @@ def create_account(db: Session, account: AccountCreate) -> Account:
         name=account.name,
         surname=account.surname,
         password=account.password,
-        email=account.email_adress,
-        games_played_count=account.games_played_count,
-        games_won_count=account.games_won_count,
-        games_lost_count=account.games_lost_count,
-        highest_achieved_score=account.highest_achieved_score,
-        correct_guess_count=account.correct_guess_count,
-        wrong_guess_count=account.wrong_guess_count,
+        email=account.email,
     )
     db.add(db_account)
     db.commit()
@@ -40,8 +34,8 @@ def update_account(
 ) -> Optional[Account]:
     db_account = read_account(db, account_id)
     if db_account:
-        account_data = account.model_dump(exclude_unset=True)
-        for key, value in account_data.items():
+        account_update = account.model_dump(exclude_unset=True)
+        for key, value in account_update.items():
             setattr(db_account, key, value)
         db.commit()
         return db_account
@@ -59,8 +53,17 @@ def delete_account(db: Session, account_id: int) -> Optional[Account]:
         raise NoResultFound
 
 
-def get_all_accounts(db: Session) -> List[Account]:
-    if accounts := db.query(Account).all():
+def read_all_accounts(db: Session) -> List[Account]:
+    accounts = db.query(Account).all()
+    if accounts:
         return accounts
     else:
         raise NoResultFound
+
+
+def get_account_by_email(db: Session, email: str) -> Optional[Account]:
+    db_account = db.query(Account).filter(Account.email == email).first()
+    if db_account:
+        return True
+    else:
+        return False
