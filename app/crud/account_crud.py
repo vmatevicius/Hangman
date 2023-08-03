@@ -34,8 +34,8 @@ def update_account(
 ) -> Optional[Account]:
     db_account = read_account(db, account_id)
     if db_account:
-        account_data = account.model_dump(exclude_unset=True)
-        for key, value in account_data.items():
+        account_update = account.model_dump(exclude_unset=True)
+        for key, value in account_update.items():
             setattr(db_account, key, value)
         db.commit()
         return db_account

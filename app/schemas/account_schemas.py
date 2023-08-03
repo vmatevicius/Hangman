@@ -29,7 +29,7 @@ class AccountResponse(BaseModel):
     name: str
     surname: str
     password: str
-    email: str
+    email: EmailStr
     games_played_count: int
     games_won_count: int
     games_lost_count: int
