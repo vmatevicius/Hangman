@@ -2,7 +2,6 @@ import crud.account_crud
 from database.db import get_db
 from fastapi import APIRouter, Depends, HTTPException
 from schemas.account_schemas import AccountResponse, AccountCreate, AccountUpdate
-
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.exc import NoResultFound
 
@@ -31,6 +30,7 @@ def update_account(
 ):
     try:
         db_account = crud.account_crud.update_account(db, account_id, account)
+        print(db_account)
         return db_account
     except NoResultFound:
         raise HTTPException(status_code=404, detail="Account not found")
@@ -45,7 +45,7 @@ def delete_account(account_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Account not found")
 
 
-@router.get("", response_model=AccountResponse)
+@router.get("", response_model=list[AccountResponse])
 def read_accounts(db: Session = Depends(get_db)):
     db_accounts = crud.account_crud.read_all_accounts(db)
     if db_accounts:
