@@ -1,0 +1,23 @@
+.center-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+}
+
+.center-text {
+    font-size: 100px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.center-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.login-message {
+    font-size: 15px;
+    color: red;
+}
