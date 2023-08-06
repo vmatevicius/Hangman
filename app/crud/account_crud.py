@@ -1,12 +1,11 @@
 from typing import List, Optional
 
 from models.account_model import Account
-from schemas.account_schemas import AccountCreate, AccountUpdate
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.exc import NoResultFound
 
 
-def create_account(db: Session, account: AccountCreate) -> Account:
+def create_account(db: Session, account: Account) -> Account:
     db_account = Account(
         username=account.username,
         name=account.name,
@@ -30,7 +29,7 @@ def read_account(db: Session, account_id: int) -> Optional[Account]:
 def update_account(
     db: Session,
     account_id: int,
-    account: AccountUpdate,
+    account: Account,
 ) -> Optional[Account]:
     db_account = read_account(db, account_id)
     if db_account:
