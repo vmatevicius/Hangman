@@ -17,6 +17,6 @@ class RegistrationForm(FlaskForm):
     email = StringField("Email", [DataRequired()])
     password = PasswordField("Password", [DataRequired()])
     confirm_password = PasswordField(
-        "Repeat password", [EqualTo("Password", "Passwords must match")]
+        "Repeat password", [EqualTo("password", "Passwords must match")]
     )
     submit = SubmitField("Register")

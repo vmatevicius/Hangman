@@ -10,14 +10,14 @@ class Account(db.Model, UserMixin):
     username = db.Column("username", db.String(20), unique=True, nullable=False)
     name = db.Column("name", db.String(60), nullable=False)
     surname = db.Column("surname", db.String(60), nullable=False)
-    password = db.Column("password", db.String(60), nullable=False, unique=True)
+    password = db.Column("password", db.String(60), nullable=False)
     email = db.Column("email", db.String(120), unique=True, index=True, nullable=False)
     games_played_count = db.Column(db.Integer, default=0)
     games_won_count = db.Column(db.Integer, default=0)
     games_lost_count = db.Column(db.Integer, default=0)
     correct_guess_count = db.Column(db.Integer, default=0)
     wrong_guess_count = db.Column(db.Integer, default=0)
-    highest_achieved_score = db.Column(db.Integer, default=0)
+    score = db.Column(db.Integer, default=0)
 
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(app.config["SECRET_KEY"], expires_sec)

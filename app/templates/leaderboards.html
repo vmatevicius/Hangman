@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="content-info">
+    <div class="container paddings-mini">
+        <div class="row">
+            <div class="col-lg-9">
+                <table class="table-striped table-responsive table-hover result-point">
+                    <thead class="point-table-head">
+                        <tr>
+                            <th class="text-left">No</th>
+                            <th class="text-left">Photo</th>
+                            <th class="text-left">Username</th>
+                            <th class="text-center">Score</th>
+                            <th class="text-center">Games Played</th>
+                            <th class="text-center">Games Won</th>
+                            <th class="text-center">Games Lost</th>
+                        </tr>
+                    </thead>
+                    {% set count = namespace(value=1) %}
+                    {% for user in sorted_user_data %}
+                    <tbody class="text-center">
+                        <tr>
+                            <td class="text-left number">{{ count.value }} <i class="fa fa-caret-up"
+                                    aria-hidden="true"></i></td>
+                            <td class="text-left">
+                                <img src="/static/default_user.jpg" alt="default">
+                            </td>
+                            <td>{{user["username"]}}</td>
+                            <td>{{user["score"]}}</td>
+                            <td>{{user["games_played"]}}</td>
+                            <td>{{user["games_won"]}}</td>
+                            <td>{{user["games_lost"]}}</td>
+                        </tr>
+                    </tbody>
+                    {% set count.value = count.value + 1 %}
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+</section>
+{% endblock %}
