@@ -34,7 +34,7 @@ def login():
             if bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user, remember=form.remember.data)
                 next_page = request.args.get("next")
-                return redirect(next_page) if next_page else redirect(url_for("home"))
+                return redirect(url_for("home"))
             else:
                 flash("Login failed, wrong password ", "danger")
         else:
@@ -176,6 +176,7 @@ def add_letter_easy():
             user.correct_guess_count += good_guesses
             user.wrong_guess_count += wrong_guesses
             db.session.commit()
+            flash(f"Secret word was - {word_to_guess}", "danger")
             return redirect("/defeat")
 
     if empty_spots == 0:
@@ -187,6 +188,7 @@ def add_letter_easy():
         user.wrong_guess_count += wrong_guesses
         user.score += 10
         db.session.commit()
+        flash(f"Secret word was - {word_to_guess}", "danger")
         return redirect("/victory")
     return render_template(
         "easy.html",
@@ -201,25 +203,189 @@ def add_letter_easy():
 @app.route("/medium", methods=["GET"])
 @login_required
 def medium():
-    return render_template("medium.html")
+    global good_guesses
+    global wrong_guesses
+    global word_to_guess
+    global tries
+    global wrong_letters
+    global empty_spots
+    global visuals
+    global animal_type
+    global usable_letters
+
+    good_guesses = 0
+    wrong_guesses = 0
+
+    usable_letters = "abcdefghijklmnopqrstuvwxyz"
+    animal_type = utils.get_random_animal_type()
+    word_to_guess = utils.get_random_animal(utils.get_animals(animal_type))
+    tries = 5
+    wrong_letters = []
+    empty_spots = 0
+    visuals = []
+    for _ in range(0, len(word_to_guess)):
+        empty_spots += 1
+        visuals.append("_")
+    return render_template(
+        "medium.html",
+        animal_type=animal_type,
+        tries=tries,
+        wrong_letters=wrong_letters,
+        visuals=visuals,
+        usable_letters=usable_letters,
+    )
 
 
 @app.route("/add_letter_medium", methods=["POST"])
 @login_required
 def add_letter_medium():
-    return render_template("medium.html")
+    global wrong_guesses
+    global word_to_guess
+    global tries
+    global wrong_letters
+    global empty_spots
+    global visuals
+    global animal_type
+    global good_guesses
+    global usable_letters
+
+    guess = request.form["letter"]
+    usable_letters = usable_letters.replace(guess, "")
+    succeeded = False
+    for index, letter in enumerate(word_to_guess):
+        if letter == guess:
+            good_guesses += 1
+            succeeded = True
+            visuals[index] = letter
+            empty_spots -= 1
+    if succeeded == False:
+        wrong_letters.append(guess)
+        wrong_guesses += 1
+        tries -= 1
+        if tries == 0:
+            id = current_user.get_id()
+            user = Account.query.get(int(id))
+            user.games_played_count += 1
+            user.games_lost_count += 1
+            user.correct_guess_count += good_guesses
+            user.wrong_guess_count += wrong_guesses
+            db.session.commit()
+            flash(f"Secret word was - {word_to_guess}", "danger")
+            return redirect("/defeat")
+
+    if empty_spots == 0:
+        id = current_user.get_id()
+        user = Account.query.get(int(id))
+        user.games_played_count += 1
+        user.games_won_count += 1
+        user.correct_guess_count += good_guesses
+        user.wrong_guess_count += wrong_guesses
+        user.score += 20
+        db.session.commit()
+        flash(f"Secret word was - {word_to_guess}", "danger")
+        return redirect("/victory")
+    return render_template(
+        "medium.html",
+        animal_type=animal_type,
+        tries=tries,
+        wrong_letters=wrong_letters,
+        visuals=visuals,
+        usable_letters=usable_letters,
+    )
 
 
 @app.route("/hard", methods=["GET"])
 @login_required
 def hard():
-    return render_template("hard.html")
+    global good_guesses
+    global wrong_guesses
+    global word_to_guess
+    global tries
+    global wrong_letters
+    global empty_spots
+    global visuals
+    global animal_type
+    global usable_letters
+
+    good_guesses = 0
+    wrong_guesses = 0
+
+    usable_letters = "abcdefghijklmnopqrstuvwxyz"
+    animal_type = utils.get_random_animal_type()
+    word_to_guess = utils.get_random_animal(utils.get_animals(animal_type))
+    tries = 3
+    wrong_letters = []
+    empty_spots = 0
+    visuals = []
+    for _ in range(0, len(word_to_guess)):
+        empty_spots += 1
+        visuals.append("_")
+    return render_template(
+        "hard.html",
+        animal_type=animal_type,
+        tries=tries,
+        wrong_letters=wrong_letters,
+        visuals=visuals,
+        usable_letters=usable_letters,
+    )
 
 
 @app.route("/add_letter_hard", methods=["POST"])
 @login_required
 def add_letter_hard():
-    return render_template("hard.html")
+    global wrong_guesses
+    global word_to_guess
+    global tries
+    global wrong_letters
+    global empty_spots
+    global visuals
+    global animal_type
+    global good_guesses
+    global usable_letters
+
+    guess = request.form["letter"]
+    usable_letters = usable_letters.replace(guess, "")
+    succeeded = False
+    for index, letter in enumerate(word_to_guess):
+        if letter == guess:
+            good_guesses += 1
+            succeeded = True
+            visuals[index] = letter
+            empty_spots -= 1
+    if succeeded == False:
+        wrong_letters.append(guess)
+        wrong_guesses += 1
+        tries -= 1
+        if tries == 0:
+            id = current_user.get_id()
+            user = Account.query.get(int(id))
+            user.games_played_count += 1
+            user.games_lost_count += 1
+            user.correct_guess_count += good_guesses
+            user.wrong_guess_count += wrong_guesses
+            db.session.commit()
+            flash(f"Secret word was - {word_to_guess}", "danger")
+            return redirect("/defeat")
+
+    if empty_spots == 0:
+        id = current_user.get_id()
+        user = Account.query.get(int(id))
+        user.games_played_count += 1
+        user.games_won_count += 1
+        user.correct_guess_count += good_guesses
+        user.wrong_guess_count += wrong_guesses
+        user.score += 30
+        db.session.commit()
+        flash(f"Secret word was - {word_to_guess}", "danger")
+        return redirect("/victory")
+    return render_template(
+        "hard.html",
+        animal_type=animal_type,
+        tries=tries,
+        wrong_letters=wrong_letters,
+        visuals=visuals,
+        usable_letters=usable_letters,
+    )
 
 
 @app.route("/defeat")
@@ -235,4 +401,4 @@ def game_won_landing():
 
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=8001, debug=True)
+    app.run(host="127.0.0.1", port=8000, debug=True)

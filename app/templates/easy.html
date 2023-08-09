@@ -23,6 +23,9 @@
         <span style="font-size:medium"> {{letter}} </span>
         {% endfor %}
     </div>
+    <div>
+        <a>tries left: {{tries}}</a>
+    </div>
 </div>
 <form action="{{ url_for('add_letter_easy') }}" method="POST">
     <div class="center-div">

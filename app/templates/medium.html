@@ -2,7 +2,38 @@
 
 {% block content %}
 
+
 <div class="center-container">
-    <h1 class="center-text">Under Remont</h1>
+    <a>All words are in lower case</a>
+    <a style="font-size:large">Hint: {{ animal_type }}</a>
+    <div>
+        {% for spot in visuals %}
+        <span style="font-size:xx-large"> {{spot}} </span>
+        {% endfor %}
+    </div>
+    <div>
+        <a>free letters: </a>
+        {% for letter in usable_letters %}
+        <span style="font-size:medium"> {{letter}} </span>
+        {% endfor %}
+    </div>
+    <div>
+        <a>wrong letters: </a>
+        {% for letter in wrong_letters %}
+        <span style="font-size:medium"> {{letter}} </span>
+        {% endfor %}
+    </div>
+    <div>
+        <a>tries left: {{tries}}</a>
+    </div>
 </div>
+<form action="{{ url_for('add_letter_medium') }}" method="POST">
+    <div class="center-div">
+        <div class="input-group mb-1">
+            <input type="text" name="letter" maxlength="1" class="form-control" placeholder="Guess a letter "
+                aria-label="Letter" aria-describedby="button-addon2" required>
+            <button class="btn custom-login-button" type="submit" id="button-addon2">Submit</button>
+        </div>
+    </div>
+</form>
 {% endblock %}
