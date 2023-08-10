@@ -1,6 +1,7 @@
+from app.models.account_model import Account
 from flask_wtf import FlaskForm
 from wtforms import SubmitField, BooleanField, StringField, PasswordField
-from wtforms.validators import DataRequired, EqualTo, Email
+from wtforms.validators import DataRequired, EqualTo, Email, ValidationError
 
 
 class LoginForm(FlaskForm):
@@ -20,3 +21,13 @@ class RegistrationForm(FlaskForm):
         "Repeat password", [EqualTo("password", "Passwords must match")]
     )
     submit = SubmitField("Register")
+
+    def validate_username(self, username):
+        user = Account.query.filter_by(username=username.data).first()
+        if user:
+            raise ValidationError("Username already in use")
+
+    def validate_email(self, email):
+        user = Account.query.filter_by(email=email.data).first()
+        if user:
+            raise ValidationError("Email already in use")

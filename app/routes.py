@@ -1,5 +1,4 @@
 from app import db, app, bcrypt
-from app.models.account_model import Account
 import forms.forms as forms
 import utils
 import db_operations
