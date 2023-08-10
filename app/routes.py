@@ -1,8 +1,9 @@
 from app import db, app, bcrypt
 from app.models.account_model import Account
 import forms.forms as forms
-from operator import itemgetter
 import utils
+import db_operations
+from operator import itemgetter
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import current_user, logout_user, login_user, login_required
 
@@ -29,11 +30,10 @@ def login():
         return redirect(url_for("index"))
     form = forms.LoginForm()
     if form.validate_on_submit():
-        user = Account.query.filter_by(username=form.username.data).first()
+        user = db_operations.get_account_by_username(form.username.data)
         if user:
             if bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user, remember=form.remember.data)
-                next_page = request.args.get("next")
                 return redirect(url_for("home"))
             else:
                 flash("Login failed, wrong password ", "danger")
@@ -59,15 +59,13 @@ def register_user():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode(
             "utf-8"
         )
-        account = Account(
-            username=form.username.data,
-            name=form.name.data,
-            surname=form.surname.data,
-            password=hashed_password,
-            email=form.email.data,
+        account = db_operations.create_account(
+            form.username.data,
+            form.name.data,
+            form.surname.data,
+            hashed_password,
+            form.email.data,
         )
-        db.session.add(account)
-        db.session.commit()
         login_user(account)
         return redirect(url_for("home"))
     return render_template("register.html", form=form)
@@ -76,24 +74,14 @@ def register_user():
 @app.route("/account", methods=["GET"])
 @login_required
 def account():
-    id = current_user.get_id()
-    user = Account.query.get(int(id))
+    user = db_operations.get_account(current_user.get_id())
     return render_template("account.html", user=user)
 
 
 @app.route("/leaderboards", methods=["GET"])
 def leaderboards():
-    users = Account.query.all()
-    unsorted_user_score_data = [
-        {
-            "username": user.username,
-            "score": user.score,
-            "games_won": user.games_won_count,
-            "games_played": user.games_played_count,
-            "games_lost": user.games_lost_count,
-        }
-        for user in users
-    ]
+    accounts = db_operations.get_all_accounts()
+    unsorted_user_score_data = db_operations.retrieve_accounts_game_data(accounts)
     sorted_user_data = sorted(
         unsorted_user_score_data, key=itemgetter("score"), reverse=True
     )
@@ -127,11 +115,10 @@ def easy():
     word_to_guess = utils.get_random_animal(utils.get_animals(animal_type))
     tries = 7
     wrong_letters = []
-    empty_spots = 0
-    visuals = []
-    for _ in range(0, len(word_to_guess)):
-        empty_spots += 1
-        visuals.append("_")
+    empty_spots = len(word_to_guess)
+    visuals = utils.create_game_board(len(word_to_guess))
+    image = utils.get_easy_image_path(tries)
+
     return render_template(
         "easy.html",
         animal_type=animal_type,
@@ -139,6 +126,7 @@ def easy():
         wrong_letters=wrong_letters,
         visuals=visuals,
         usable_letters=usable_letters,
+        image=image,
     )
 
 
@@ -169,27 +157,23 @@ def add_letter_easy():
         wrong_guesses += 1
         tries -= 1
         if tries == 0:
-            id = current_user.get_id()
-            user = Account.query.get(int(id))
-            user.games_played_count += 1
-            user.games_lost_count += 1
-            user.correct_guess_count += good_guesses
-            user.wrong_guess_count += wrong_guesses
-            db.session.commit()
+            user = db_operations.get_account(current_user.get_id())
+            db_operations.update_account_after_lost_game(
+                user, good_guesses, wrong_guesses
+            )
             flash(f"Secret word was - {word_to_guess}", "danger")
             return redirect("/defeat")
 
     if empty_spots == 0:
-        id = current_user.get_id()
-        user = Account.query.get(int(id))
-        user.games_played_count += 1
-        user.games_won_count += 1
-        user.correct_guess_count += good_guesses
-        user.wrong_guess_count += wrong_guesses
-        user.score += 10
-        db.session.commit()
+        user = db_operations.get_account(current_user.get_id())
+        db_operations.update_account_after_won_game(
+            user, good_guesses, wrong_guesses, EASY_MODE_POINTS
+        )
         flash(f"Secret word was - {word_to_guess}", "danger")
         return redirect("/victory")
+
+    image = utils.get_easy_image_path(tries)
+
     return render_template(
         "easy.html",
         animal_type=animal_type,
@@ -197,6 +181,7 @@ def add_letter_easy():
         wrong_letters=wrong_letters,
         visuals=visuals,
         usable_letters=usable_letters,
+        image=image,
     )
 
 
@@ -221,11 +206,10 @@ def medium():
     word_to_guess = utils.get_random_animal(utils.get_animals(animal_type))
     tries = 5
     wrong_letters = []
-    empty_spots = 0
-    visuals = []
-    for _ in range(0, len(word_to_guess)):
-        empty_spots += 1
-        visuals.append("_")
+    empty_spots = len(word_to_guess)
+    visuals = utils.create_game_board(len(word_to_guess))
+    image = utils.get_medium_image_path(tries)
+
     return render_template(
         "medium.html",
         animal_type=animal_type,
@@ -233,6 +217,7 @@ def medium():
         wrong_letters=wrong_letters,
         visuals=visuals,
         usable_letters=usable_letters,
+        image=image,
     )
 
 
@@ -263,27 +248,23 @@ def add_letter_medium():
         wrong_guesses += 1
         tries -= 1
         if tries == 0:
-            id = current_user.get_id()
-            user = Account.query.get(int(id))
-            user.games_played_count += 1
-            user.games_lost_count += 1
-            user.correct_guess_count += good_guesses
-            user.wrong_guess_count += wrong_guesses
-            db.session.commit()
+            user = db_operations.get_account(current_user.get_id())
+            db_operations.update_account_after_lost_game(
+                user, good_guesses, wrong_guesses
+            )
             flash(f"Secret word was - {word_to_guess}", "danger")
             return redirect("/defeat")
 
     if empty_spots == 0:
-        id = current_user.get_id()
-        user = Account.query.get(int(id))
-        user.games_played_count += 1
-        user.games_won_count += 1
-        user.correct_guess_count += good_guesses
-        user.wrong_guess_count += wrong_guesses
-        user.score += 20
-        db.session.commit()
+        user = db_operations.get_account(current_user.get_id())
+        db_operations.update_account_after_won_game(
+            user, good_guesses, wrong_guesses, MEDIUM_MODE_POINTS
+        )
         flash(f"Secret word was - {word_to_guess}", "danger")
         return redirect("/victory")
+
+    image = utils.get_medium_image_path(tries)
+
     return render_template(
         "medium.html",
         animal_type=animal_type,
@@ -291,6 +272,7 @@ def add_letter_medium():
         wrong_letters=wrong_letters,
         visuals=visuals,
         usable_letters=usable_letters,
+        image=image,
     )
 
 
@@ -315,11 +297,10 @@ def hard():
     word_to_guess = utils.get_random_animal(utils.get_animals(animal_type))
     tries = 3
     wrong_letters = []
-    empty_spots = 0
-    visuals = []
-    for _ in range(0, len(word_to_guess)):
-        empty_spots += 1
-        visuals.append("_")
+    empty_spots = len(word_to_guess)
+    visuals = utils.create_game_board(len(word_to_guess))
+    image = utils.get_hard_image_path(tries)
+
     return render_template(
         "hard.html",
         animal_type=animal_type,
@@ -327,6 +308,7 @@ def hard():
         wrong_letters=wrong_letters,
         visuals=visuals,
         usable_letters=usable_letters,
+        image=image,
     )
 
 
@@ -357,27 +339,23 @@ def add_letter_hard():
         wrong_guesses += 1
         tries -= 1
         if tries == 0:
-            id = current_user.get_id()
-            user = Account.query.get(int(id))
-            user.games_played_count += 1
-            user.games_lost_count += 1
-            user.correct_guess_count += good_guesses
-            user.wrong_guess_count += wrong_guesses
-            db.session.commit()
+            user = db_operations.get_account(current_user.get_id())
+            db_operations.update_account_after_lost_game(
+                user, good_guesses, wrong_guesses
+            )
             flash(f"Secret word was - {word_to_guess}", "danger")
             return redirect("/defeat")
 
     if empty_spots == 0:
-        id = current_user.get_id()
-        user = Account.query.get(int(id))
-        user.games_played_count += 1
-        user.games_won_count += 1
-        user.correct_guess_count += good_guesses
-        user.wrong_guess_count += wrong_guesses
-        user.score += 30
-        db.session.commit()
+        user = db_operations.get_account(current_user.get_id())
+        db_operations.update_account_after_won_game(
+            user, good_guesses, wrong_guesses, HARD_MODE_POINTS
+        )
         flash(f"Secret word was - {word_to_guess}", "danger")
         return redirect("/victory")
+
+    image = utils.get_hard_image_path(tries)
+
     return render_template(
         "hard.html",
         animal_type=animal_type,
@@ -385,6 +363,7 @@ def add_letter_hard():
         wrong_letters=wrong_letters,
         visuals=visuals,
         usable_letters=usable_letters,
+        image=image,
     )
 
 
