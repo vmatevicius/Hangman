@@ -1,10 +1,19 @@
+from os import path
+import logging
+import logging.config
 from app import db, app, bcrypt
 import forms.forms as forms
 import utils
 import db_operations
 from operator import itemgetter
+from sqlalchemy.exc import SQLAlchemyError
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import current_user, logout_user, login_user, login_required
+
+log_file_path = path.join(path.dirname(path.abspath(__file__)), "logging.conf")
+logging.config.fileConfig(log_file_path)
+logger = logging.getLogger("sLogger")
+
 
 EASY_MODE_POINTS = 10
 MEDIUM_MODE_POINTS = 20
