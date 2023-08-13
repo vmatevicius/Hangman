@@ -63,6 +63,7 @@ docker run -p 8000:8000 Hangman
 
 ## How to Play
 
+0. go to http://{your local host}:8000/
 1. Register or log in to your account.
 2. Choose a difficulty mode (easy, medium, or hard).
 3. Guess letters to reveal the hidden word.
