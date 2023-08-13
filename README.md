@@ -8,7 +8,7 @@ Follow these instructions to set up and run the Hangman Game App on your local m
 
 ### Prerequisites
 
-- Python 3.8 or higher
+- Python 3.10 or higher
 - Docker (optional, for Dockerization)
 - Git
 
@@ -17,8 +17,39 @@ Follow these instructions to set up and run the Hangman Game App on your local m
 1. Clone the repository to your local machine:
 
 ```bash
-git clone https://github.com/your-username/hangman-game-app.git
-cd hangman-game-app
+git clone https://github.com/vmatevicius/Hangman.git
+cd Hangman
+```
+ 
+2. Create and activate a virtual environment:
+```
+python3 -m venv .venv
+source .venv/Scripts/activate
+```
+3. Install the required packages:
+```
+pip install -r requirements.txt
+```
+
+### Running the App
+
+1. Type this code in terminal
+
+```
+python run.py
+```
+
+### Dockerization (Optional)
+
+1. Build the Docker image:
+
+```
+docker build -t Hangman .
+```
+
+2. Run the Docker container:
+```
+docker run -p 8000:8000 Hangman
 ```
 
 ## Features
