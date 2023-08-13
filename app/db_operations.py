@@ -14,11 +14,17 @@ logger = logging.getLogger("sLogger")
 def get_account(id: int) -> Account:
     try:
         account = Account.query.get(id)
-        logger.info(f"{account.username} account retrieved successfully")
-        return account
+        if account:
+            logger.info(f"'{account.username}' account retrieved successfully")
+            return account
+        else:
+            logger.error(
+                f"tried to retrieve account with id '{id}', but it does not exist"
+            )
+            return None
     except SQLAlchemyError as e:
         error = str(e.__dict__["orig"])
-        logger.error(f"an arror: {error} occured while getting account")
+        logger.error(f"an arror: '{error}' occured while getting account")
 
 
 def get_all_accounts() -> Account:
@@ -28,7 +34,7 @@ def get_all_accounts() -> Account:
         return accounts
     except SQLAlchemyError as e:
         error = str(e.__dict__["orig"])
-        logger.error(f"an arror: {error} occured while getting all accounts")
+        logger.error(f"an arror: '{error}' occured while getting all accounts")
 
 
 def create_account(
@@ -44,11 +50,11 @@ def create_account(
         )
         db.session.add(account)
         db.session.commit()
-        logger.info(f"{account.username} account created successfully")
+        logger.info(f"'{account.username}' account created successfully")
         return account
     except SQLAlchemyError as e:
         error = str(e.__dict__["orig"])
-        logger.error(f"an arror: {error} occured while creating account")
+        logger.error(f"an arror: '{error}' occured while creating account")
 
 
 def retrieve_accounts_game_data(accounts: List[Account]) -> List[Dict[str, int]]:
@@ -67,17 +73,23 @@ def retrieve_accounts_game_data(accounts: List[Account]) -> List[Dict[str, int]]
         return unsorted_user_score_data
     except SQLAlchemyError as e:
         error = str(e.__dict__["orig"])
-        logger.error(f"an arror: {error} occured while retrieving accounts game data")
+        logger.error(f"an arror: '{error}' occured while retrieving accounts game data")
 
 
 def get_account_by_username(username: str) -> Account:
     try:
         account = Account.query.filter_by(username=username).first()
-        logger.info(f"{account.username} account retrieved successfully")
-        return account
+        if account:
+            logger.info(f"'{account.username}' account retrieved successfully")
+            return account
+        else:
+            logger.error(
+                f"tried to retrieve account with username '{username}', but it does not exist"
+            )
+            return None
     except SQLAlchemyError as e:
         error = str(e.__dict__["orig"])
-        logger.error(f"an arror: {error} occured while getting account by username")
+        logger.error(f"an arror: '{error}' occured while getting account by username")
 
 
 def update_account_after_lost_game(
@@ -89,12 +101,12 @@ def update_account_after_lost_game(
         account.correct_guess_count += good_guesses
         account.wrong_guess_count += wrong_guesses
         db.session.commit()
-        logger.info(f"{account.username} loss updated successfully")
+        logger.info(f"'{account.username}' loss updated successfully")
         return True
     except SQLAlchemyError as e:
         error = str(e.__dict__["orig"])
         logger.error(
-            f"an arror: {error} occured while updating account after lost game"
+            f"an arror: '{error}' occured while updating account after lost game"
         )
 
 
@@ -108,8 +120,10 @@ def update_account_after_won_game(
         account.wrong_guess_count += wrong_guesses
         account.score += points
         db.session.commit()
-        logger.info(f"{account.username} victory updated successfully")
+        logger.info(f"'{account.username}' victory updated successfully")
         return True
     except SQLAlchemyError as e:
         error = str(e.__dict__["orig"])
-        logger.error(f"an arror: {error} occured while updating account after won game")
+        logger.error(
+            f"an arror: '{error}' occured while updating account after won game"
+        )

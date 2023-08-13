@@ -1,4 +1,6 @@
 import os
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
@@ -10,6 +12,8 @@ app.config["SECRET_KEY"] = "4654f5dfadsrfasdr54e6rae"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(
     basedir, "hangman.db"
 )
+app.config["SECRET_KEY"] = "4654f5dfadsrfasdr54e6rae"
+
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 app.app_context().push()
@@ -27,6 +31,5 @@ login_manager.login_message_category = "info"
 def load_user(user_id):
     db.create_all()
     return Account.query.get(int(user_id))
-
 
 from app import routes
