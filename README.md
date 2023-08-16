@@ -22,12 +22,14 @@ cd Hangman
 ```
  
 2. Create and activate a virtual environment:
-```
+
+```bash
 python3 -m venv .venv
 source .venv/Scripts/activate
 ```
 3. Install the required packages:
-```
+
+```bash
 pip install -r requirements.txt
 ```
 
@@ -35,21 +37,22 @@ pip install -r requirements.txt
 
 1. Type this code in terminal
 
-```
+```bash
 python run.py
 ```
 
 ### Dockerization (Optional)
 
-1. Build the Docker image:
+1. Build Docker containers:
 
-```
-docker build -t Hangman .
+```bash
+docker compose build --no-cache
 ```
 
-2. Run the Docker container:
-```
-docker run -p 8000:8000 Hangman
+2. Run containers:
+
+```bash
+docker compose up
 ```
 
 ## Features
@@ -63,7 +66,7 @@ docker run -p 8000:8000 Hangman
 
 ## How to Play
 
-0. Go to http://{your local host}:8000/
+0. Go to http://{your local host}:5000/
 1. Register or log in to your account.
 2. Choose a difficulty mode (easy, medium, or hard).
 3. Guess letters to reveal the hidden word.

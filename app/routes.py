@@ -1,7 +1,7 @@
 from app import db, app, bcrypt
-import forms.forms as forms
-import utils
-import db_operations
+from app.forms.forms import LoginForm, RegistrationForm
+import app.utils as utils
+import app.db_operations as db_operations
 from operator import itemgetter
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import current_user, logout_user, login_user, login_required
@@ -27,7 +27,7 @@ def login():
     db.create_all
     if current_user.is_authenticated:
         return redirect(url_for("index"))
-    form = forms.LoginForm()
+    form = LoginForm()
     if form.validate_on_submit():
         user = db_operations.get_account_by_username(form.username.data)
         if user:
@@ -53,7 +53,7 @@ def register_user():
     db.create_all
     if current_user.is_authenticated:
         return redirect(url_for("index"))
-    form = forms.RegistrationForm()
+    form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode(
             "utf-8"
