@@ -2,8 +2,6 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 
 app = Flask(__name__)
 SQLALCHEMY_DATABASE_URL = "postgresql://user:12345@hangman_database:5432/postgres"

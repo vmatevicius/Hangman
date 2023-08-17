@@ -1,10 +1,14 @@
 from app import db, app, bcrypt
 from app.forms.forms import LoginForm, RegistrationForm
-import app.utils as utils
-import app.db_operations as db_operations
 from operator import itemgetter
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import current_user, logout_user, login_user, login_required
+from app.db_operations import DBoperatorions
+from app.utils import Utilities
+
+utils = Utilities()
+db_operations = DBoperatorions()
+
 
 EASY_MODE_POINTS = 10
 MEDIUM_MODE_POINTS = 20
