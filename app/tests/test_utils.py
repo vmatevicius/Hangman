@@ -1,5 +1,6 @@
-from typing import List
 import unittest
+from typing import List
+
 import utils
 from tests.data_for_tests.utils_test_data import amphibians
 

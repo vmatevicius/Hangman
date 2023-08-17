@@ -1,10 +1,12 @@
-from os import path
-from typing import List, Dict
-from app.models.account_model import Account
-from app import db
 import logging
 import logging.config
+from os import path
+from typing import Dict, List
+
 from sqlalchemy.exc import SQLAlchemyError
+
+from app import db
+from app.models.account_model import Account
 
 log_file_path = path.join(path.dirname(path.abspath(__file__)), "logging.conf")
 logging.config.fileConfig(log_file_path)

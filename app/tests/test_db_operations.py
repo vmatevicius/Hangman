@@ -1,7 +1,9 @@
-from typing import List
 import unittest
+from typing import List
+from unittest.mock import MagicMock, patch
+
 import db_operations
-from unittest.mock import patch, MagicMock
+
 from app.models.account_model import Account
 
 

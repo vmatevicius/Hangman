@@ -1,9 +1,8 @@
-from os import path
-from typing import List
-import random
-
 import logging
 import logging.config
+import random
+from os import path
+from typing import List
 
 log_file_path = path.join(path.dirname(path.abspath(__file__)), "logging.conf")
 logging.config.fileConfig(log_file_path)

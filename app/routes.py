@@ -1,9 +1,11 @@
-from app import db, app, bcrypt
-from app.forms.forms import LoginForm, RegistrationForm
 from operator import itemgetter
-from flask import render_template, redirect, url_for, flash, request
-from flask_login import current_user, logout_user, login_user, login_required
+
+from flask import flash, redirect, render_template, request, url_for
+from flask_login import current_user, login_required, login_user, logout_user
+
+from app import app, bcrypt, db
 from app.db_operations import DBoperatorions
+from app.forms.forms import LoginForm, RegistrationForm
 from app.utils import Utilities
 
 utils = Utilities()
