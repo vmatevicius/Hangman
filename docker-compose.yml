@@ -17,7 +17,7 @@ services:
     networks:
       - development
     volumes:
-      - ./app:/app
+      - .:/app
 
   database:
     container_name: hangman_database

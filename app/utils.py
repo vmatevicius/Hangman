@@ -3,7 +3,7 @@ import logging.config
 import random
 from os import path
 from typing import List, Literal
-from app.routes import render_template, request, flash, redirect, g
+from flask import flash, redirect, render_template, request
 from app.models.account_model import Account
 from app.db_operations import DBoperatorions
 
@@ -58,72 +58,85 @@ class Utilities:
         except Exception as e:
             logger.error(e)
 
-    def launch_game(self, g, tries: int, difficulty: Literal["easy", "medium", "hard"]):
-        g.good_guesses = 0
-        g.wrong_guesses = 0
+    def launch_game(self, tries: int, difficulty: Literal["easy", "medium", "hard"]):
+        global good_guesses
+        global wrong_guesses
+        global word_to_guess
+        global wrong_letters
+        global empty_spots
+        global visuals
+        global animal_type
+        global usable_letters
+        global local_tries
+        local_tries = tries
 
-        g.usable_letters = "abcdefghijklmnopqrstuvwxyz"
-        g.animal_type = self.get_random_animal_type()
-        g.word_to_guess = self.get_random_animal(self.get_animals(g.animal_type))
-        g.wrong_letters = []
-        g.empty_spots = len(g.word_to_guess)
-        g.visuals = self.create_game_board(len(g.word_to_guess))
-        g.image = self.get_image_path(tries, difficulty)
+        good_guesses = 0
+        wrong_guesses = 0
 
-        print(g.keys())
+        usable_letters = "abcdefghijklmnopqrstuvwxyz"
+        animal_type = self.get_random_animal_type()
+        word_to_guess = self.get_random_animal(self.get_animals(animal_type))
+        wrong_letters = []
+        empty_spots = len(word_to_guess)
+        visuals = self.create_game_board(len(word_to_guess))
+        image = self.get_image_path(tries, difficulty)
+
         return render_template(
             "easy.html",
-            animal_type=g.animal_type,
+            animal_type=animal_type,
             tries=tries,
-            wrong_letters=g.wrong_letters,
-            visuals=g.visuals,
-            usable_letters=g.usable_letters,
-            image=g.image,
+            wrong_letters=wrong_letters,
+            visuals=visuals,
+            usable_letters=usable_letters,
+            image=image,
         )
 
-    def add_letter(
-        self,
-        g,
-        tries: int,
-        difficulty: Literal["easy", "medium", "hard"],
-        user: Account,
-    ):
+    def add_letter(self, difficulty: Literal["easy", "medium", "hard"], user: Account):
+        global wrong_guesses
+        global word_to_guess
+        global wrong_letters
+        global empty_spots
+        global visuals
+        global animal_type
+        global good_guesses
+        global usable_letters
+        global local_tries
+
         guess = request.form["letter"]
-        g.usable_letters = g.usable_letters.replace(guess, "")
+        usable_letters = usable_letters.replace(guess, "")
         succeeded = False
-        for index, letter in enumerate(g.word_to_guess):
+        for index, letter in enumerate(word_to_guess):
             if letter == guess:
                 good_guesses += 1
                 succeeded = True
-                g.visuals[index] = letter
+                visuals[index] = letter
                 empty_spots -= 1
         if succeeded == False:
-            g.wrong_letters.append(guess)
+            wrong_letters.append(guess)
             wrong_guesses += 1
-            tries -= 1
-            if tries == 0:
+            local_tries -= 1
+            if local_tries == 0:
                 db_operations.update_account_after_lost_game(
                     user, good_guesses, wrong_guesses
                 )
-                flash(f"Secret word was - {g.word_to_guess}", "danger")
+                flash(f"Secret word was - {word_to_guess}", "danger")
                 return redirect("/defeat")
 
         if empty_spots == 0:
             db_operations.update_account_after_won_game(
                 user, good_guesses, wrong_guesses, EASY_MODE_POINTS
             )
-            flash(f"Secret word was - {g.word_to_guess}", "danger")
+            flash(f"Secret word was - {word_to_guess}", "danger")
             return redirect("/victory")
 
-        image = self.get_image_path(tries, difficulty)
+        image = self.get_image_path(local_tries, difficulty)
 
-        print(g.keys())
         return render_template(
             "easy.html",
-            animal_type=g.animal_type,
-            tries=tries,
-            wrong_letters=g.wrong_letters,
-            visuals=g.visuals,
-            usable_letters=g.usable_letters,
+            animal_type=animal_type,
+            tries=local_tries,
+            wrong_letters=wrong_letters,
+            visuals=visuals,
+            usable_letters=usable_letters,
             image=image,
         )
