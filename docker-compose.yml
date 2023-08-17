@@ -16,6 +16,8 @@ services:
       - "5000:5000"
     networks:
       - development
+    volumes:
+      - ./app:/app
 
   database:
     container_name: hangman_database

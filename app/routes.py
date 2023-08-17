@@ -1,6 +1,6 @@
 from operator import itemgetter
 
-from flask import flash, redirect, render_template, request, url_for
+from flask import flash, redirect, render_template, request, url_for, g
 from flask_login import current_user, login_required, login_user, logout_user
 
 from app import app, bcrypt, db
@@ -10,11 +10,6 @@ from app.utils import Utilities
 
 utils = Utilities()
 db_operations = DBoperatorions()
-
-
-EASY_MODE_POINTS = 10
-MEDIUM_MODE_POINTS = 20
-HARD_MODE_POINTS = 30
 
 
 @app.route("/", methods=["GET"])
@@ -102,92 +97,14 @@ def difficulties():
 @app.route("/easy", methods=["GET"])
 @login_required
 def easy():
-    global good_guesses
-    global wrong_guesses
-    global word_to_guess
-    global tries
-    global wrong_letters
-    global empty_spots
-    global visuals
-    global animal_type
-    global usable_letters
-
-    good_guesses = 0
-    wrong_guesses = 0
-
-    usable_letters = "abcdefghijklmnopqrstuvwxyz"
-    animal_type = utils.get_random_animal_type()
-    word_to_guess = utils.get_random_animal(utils.get_animals(animal_type))
-    tries = 7
-    wrong_letters = []
-    empty_spots = len(word_to_guess)
-    visuals = utils.create_game_board(len(word_to_guess))
-    image = utils.get_easy_image_path(tries)
-
-    return render_template(
-        "easy.html",
-        animal_type=animal_type,
-        tries=tries,
-        wrong_letters=wrong_letters,
-        visuals=visuals,
-        usable_letters=usable_letters,
-        image=image,
-    )
+    return utils.launch_game(g=g, tries=7, difficulty="easy")
 
 
 @app.route("/add_letter_easy", methods=["POST"])
 @login_required
 def add_letter_easy():
-    global wrong_guesses
-    global word_to_guess
-    global tries
-    global wrong_letters
-    global empty_spots
-    global visuals
-    global animal_type
-    global good_guesses
-    global usable_letters
-
-    guess = request.form["letter"]
-    usable_letters = usable_letters.replace(guess, "")
-    succeeded = False
-    for index, letter in enumerate(word_to_guess):
-        if letter == guess:
-            good_guesses += 1
-            succeeded = True
-            visuals[index] = letter
-            empty_spots -= 1
-    if succeeded == False:
-        wrong_letters.append(guess)
-        wrong_guesses += 1
-        tries -= 1
-        if tries == 0:
-            user = db_operations.get_account(current_user.get_id())
-            db_operations.update_account_after_lost_game(
-                user, good_guesses, wrong_guesses
-            )
-            flash(f"Secret word was - {word_to_guess}", "danger")
-            return redirect("/defeat")
-
-    if empty_spots == 0:
-        user = db_operations.get_account(current_user.get_id())
-        db_operations.update_account_after_won_game(
-            user, good_guesses, wrong_guesses, EASY_MODE_POINTS
-        )
-        flash(f"Secret word was - {word_to_guess}", "danger")
-        return redirect("/victory")
-
-    image = utils.get_easy_image_path(tries)
-
-    return render_template(
-        "easy.html",
-        animal_type=animal_type,
-        tries=tries,
-        wrong_letters=wrong_letters,
-        visuals=visuals,
-        usable_letters=usable_letters,
-        image=image,
-    )
+    user = db_operations.get_account(current_user.get_id())
+    return utils.add_letter(g=g, tries=7, difficulty="easy", user=user)
 
 
 @app.route("/medium", methods=["GET"])
