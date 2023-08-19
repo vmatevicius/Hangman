@@ -130,3 +130,145 @@ table tr td img {
     transform: translate(-50%, -50%);
     width: 10%;
 }
+
+h1::before {
+    transform: scaleX(0);
+    transform-origin: bottom right;
+}
+
+h1:hover::before {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+h1::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    inset: 0 0 0 0;
+    background: #7c4dff;
+    z-index: -1;
+    transition: transform .3s ease;
+}
+
+.green-difficulty::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    inset: 0 0 0 0;
+    background: rgb(15, 155, 15);
+    z-index: -1;
+    transition: transform .3s ease;
+}
+
+.red-difficulty::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    inset: 0 0 0 0;
+    background: orangered;
+    z-index: -1;
+    transition: transform .3s ease;
+}
+
+.yellow-difficulty::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    inset: 0 0 0 0;
+    background: yellow;
+    z-index: -1;
+    transition: transform .3s ease;
+}
+
+h1 {
+    position: relative;
+    font-size: 5rem;
+}
+
+html {
+    block-size: 100%;
+    inline-size: 100%;
+}
+
+@media (orientation: landscape) {
+    body {
+        grid-auto-flow: column;
+    }
+}
+
+
+.game-button {
+    animation: wiggle 3s linear infinite;
+}
+
+@keyframes wiggle {
+
+    0%,
+    7% {
+        transform: rotateZ(0);
+    }
+
+    15% {
+        transform: rotateZ(-4deg);
+    }
+
+    20% {
+        transform: rotateZ(2deg);
+    }
+
+    25% {
+        transform: rotateZ(-2deg);
+    }
+
+    30% {
+        transform: rotateZ(2deg);
+    }
+
+    35% {
+        transform: rotateZ(-0.5deg);
+    }
+
+    40%,
+    100% {
+        transform: rotateZ(0);
+    }
+}
+
+body {
+    background: #7c4dff;
+}
+
+.game-button {
+    position: absolute;
+    left: calc(50% - -7em);
+    top: calc(50% - 1.2em);
+
+    height: 2.5em;
+    width: 5em;
+
+    background: #7c4dff;
+    background: #7c4dff;
+    border: none;
+    border-radius: 0 0 0.2em 0.2em;
+    color: #fff;
+    font-family: Helvetica, Arial, Sans-serif;
+    font-size: 1em;
+    transform-origin: 50% 5em;
+}
