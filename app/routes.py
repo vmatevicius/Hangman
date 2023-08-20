@@ -1,6 +1,6 @@
 from operator import itemgetter
 
-from flask import flash, redirect, render_template, url_for
+from flask import flash, redirect, render_template, url_for, request
 from flask_login import current_user, login_required, login_user, logout_user
 
 from app import app, bcrypt, db
@@ -56,6 +56,10 @@ def register_user():
         return redirect(url_for("index"))
     form = RegistrationForm()
     if form.validate_on_submit():
+        if request.args.get('type') != None:
+            profile_picture = f"/static/profile_pictures/{request.args.get('type').strip()}.jpg"
+        else:
+            profile_picture = "/static/default.png"
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode(
             "utf-8"
         )
@@ -65,16 +69,21 @@ def register_user():
             form.surname.data,
             hashed_password,
             form.email.data,
+            profile_picture
         )
         login_user(account)
         return redirect(url_for("home"))
     return render_template("register.html", form=form)
 
+@app.route("/profile_picture", methods=["GET"])
+def profile_picture():
+    return render_template("profile_picture.html")
 
 @app.route("/account", methods=["GET"])
 @login_required
 def account():
     user = db_operations.get_account(current_user.get_id())
+    print(user.profile_picture)
     return render_template("account.html", user=user)
 
 

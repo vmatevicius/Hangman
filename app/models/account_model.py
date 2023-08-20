@@ -13,6 +13,7 @@ class Account(db.Model, UserMixin):
     surname = db.Column("surname", db.String(60), nullable=False)
     password = db.Column("password", db.String(60), nullable=False)
     email = db.Column("email", db.String(120), unique=True, index=True, nullable=False)
+    profile_picture = db.Column(db.String(60), nullable=False)
     games_played_count = db.Column(db.Integer, default=0)
     games_won_count = db.Column(db.Integer, default=0)
     games_lost_count = db.Column(db.Integer, default=0)

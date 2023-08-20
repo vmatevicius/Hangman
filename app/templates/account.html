@@ -6,7 +6,7 @@
         <div class="col-lg-4">
             <div class="card mb-4">
                 <div class="card-body text-center">
-                    <img src="/static/default_user.jpg" alt="avatar" class="rounded-circle img-fluid"
+                    <img src="{{ user.profile_picture }}" alt="avatar" class="rounded-circle img-fluid"
                         style="width: 150px;">
                     <h5 class="my-3">username - {{ user.username }}</h5>
                     <p class="text-muted mb-1">name - {{ user.name }}</p>

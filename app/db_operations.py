@@ -41,7 +41,7 @@ class DBoperatorions:
             logger.error(f"an arror: '{error}' occured while getting all accounts")
 
     def create_account(
-        self, username: str, name: str, surname: str, hashed_password: str, email: str
+        self, username: str, name: str, surname: str, hashed_password: str, email: str, profile_picture: str
     ) -> Account:
         try:
             account = Account(
@@ -50,6 +50,7 @@ class DBoperatorions:
                 surname=surname,
                 password=hashed_password,
                 email=email,
+                profile_picture=profile_picture
             )
             db.session.add(account)
             db.session.commit()
@@ -70,6 +71,7 @@ class DBoperatorions:
                     "games_won": account.games_won_count,
                     "games_played": account.games_played_count,
                     "games_lost": account.games_lost_count,
+                    "picture_path": account.profile_picture,
                 }
                 for account in accounts
             ]
