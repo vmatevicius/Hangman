@@ -13,6 +13,17 @@ body {
     height: 200px
 }
 
+.horizontal-list {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+}
+
+.horizontal-list li {
+    margin-right: 5px;
+}
+
 @media all and (min-width: 992px) {
     .navbar .nav-item .dropdown-menu {
         display: none;
