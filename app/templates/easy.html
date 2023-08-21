@@ -4,10 +4,13 @@
 
 
 <div class="center-container">
+    <a style="font-size:larger">All words are in lower case</a>
+    {% for message in get_flashed_messages() %}
+    <h2 class="reveal-error-message">{{ message }}</h2>
+    {% endfor %}
     <div class="card-body text-center">
         <img src={{image}} alt="avatar" class="rounded-circle img-fluid" style="width: 600px;">
     </div>
-    <a>All words are in lower case</a>
     <a style="font-size:large">Hint: {{ animal_type }}</a>
     <div>
         {% for spot in visuals %}
@@ -37,6 +40,12 @@
                 aria-label="Letter" aria-describedby="button-addon2" required>
             <button class="game-button" type="submit" id="button-addon2">Submit</button>
         </div>
+    </div>
+</form>
+<form action="{{ url_for('reveal_letter_easy') }}" method="POST">
+    <div class="center-text">
+        <button action="{{ url_for('reveal_letter_easy') }}" method="POST" class="btn btn-sm custom-reveal-button"
+            type="submit" id="button-addon2">Reveal letter</button>
     </div>
 </form>
 {% endblock %}

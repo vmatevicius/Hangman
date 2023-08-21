@@ -20,6 +20,7 @@ class Account(db.Model, UserMixin):
     correct_guess_count = db.Column(db.Integer, default=0)
     wrong_guess_count = db.Column(db.Integer, default=0)
     score = db.Column(db.Integer, default=0)
+    reveal_ticket = db.Column(db.Integer, default=0)
 
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(app.config["SECRET_KEY"], expires_sec)

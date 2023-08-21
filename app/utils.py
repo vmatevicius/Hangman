@@ -21,6 +21,27 @@ HARD_MODE_POINTS = 30
 class Utilities:
     pass
 
+    def get_valid_leter(self, word: str, free_letters: str) -> str:
+        while True:
+            try:
+                letter = word[random.randint(0,len(word) -1)]
+                if letter in free_letters:
+                    return letter
+                else:
+                    continue
+            except Exception as e:
+                logger.error(e)
+    
+    def get_true_or_false_value(self) -> bool:
+        try:
+            random_number = random.randint(1,9)
+            if random_number == 1:
+                return True
+            else:
+                return False
+        except Exception as e:
+            logger.error(e)
+    
     def get_random_animal_type(self) -> str:
         try:
             types = ["amphibians", "birds", "mammals", "reptiles"]
@@ -38,10 +59,15 @@ class Utilities:
             logger.error(e)
 
     def get_random_animal(self, animals: List[str]) -> str:
-        try:
-            return animals[random.randint(0, len(animals) - 1)]
-        except Exception as e:
-            logger.error(e)
+        while True:
+            try:
+                animals[random.randint(0, len(animals) - 1)]
+                if animals != None:
+                    return animals[random.randint(0, len(animals) - 1)]
+                else:
+                    continue
+            except Exception as e:
+                logger.error(e)
 
     def get_image_path(
         self, number_of_tries: int, difficulty: Literal["easy", "medium", "hard"]
@@ -67,8 +93,8 @@ class Utilities:
         global visuals
         global animal_type
         global usable_letters
-        global local_tries
-        local_tries = tries
+        global current_tries
+        current_tries = tries
 
         good_guesses = 0
         wrong_guesses = 0
@@ -82,7 +108,7 @@ class Utilities:
         image = self.get_image_path(tries, difficulty)
 
         return render_template(
-            "easy.html",
+            f"{difficulty}.html",
             animal_type=animal_type,
             tries=tries,
             wrong_letters=wrong_letters,
@@ -100,7 +126,9 @@ class Utilities:
         global animal_type
         global good_guesses
         global usable_letters
-        global local_tries
+        global current_tries
+
+        ticket = 0
 
         guess = request.form["letter"]
         usable_letters = usable_letters.replace(guess, "")
@@ -114,27 +142,71 @@ class Utilities:
         if succeeded == False:
             wrong_letters.append(guess)
             wrong_guesses += 1
-            local_tries -= 1
-            if local_tries == 0:
+            current_tries -= 1
+            if current_tries == 0:
                 db_operations.update_account_after_lost_game(
                     user, good_guesses, wrong_guesses
                 )
                 flash(f"Secret word was - {word_to_guess}", "danger")
                 return redirect("/defeat")
-
         if empty_spots == 0:
+            if self.get_true_or_false_value:
+                ticket = 1
             db_operations.update_account_after_won_game(
-                user, good_guesses, wrong_guesses, EASY_MODE_POINTS
+                user, good_guesses, wrong_guesses, EASY_MODE_POINTS, ticket
             )
             flash(f"Secret word was - {word_to_guess}", "danger")
             return redirect("/victory")
 
-        image = self.get_image_path(local_tries, difficulty)
+        image = self.get_image_path(current_tries, difficulty)
 
         return render_template(
-            "easy.html",
+            f"{difficulty}.html",
             animal_type=animal_type,
-            tries=local_tries,
+            tries=current_tries,
+            wrong_letters=wrong_letters,
+            visuals=visuals,
+            usable_letters=usable_letters,
+            image=image,
+        )
+        
+    def reveal_letter(self, difficulty: Literal["easy", "medium", "hard"], user: Account) -> str:
+        global wrong_guesses
+        global word_to_guess
+        global wrong_letters
+        global empty_spots
+        global visuals
+        global animal_type
+        global good_guesses
+        global usable_letters
+        global current_tries
+        
+        if user.reveal_ticket == 0:
+            flash(f"Not enough reveal tickets", "danger")
+        if user.reveal_ticket > 0:
+            revealed_letter = self.get_valid_leter(word_to_guess, usable_letters)
+            usable_letters = usable_letters.replace(revealed_letter, "")
+            for index, letter in enumerate(word_to_guess):
+                if letter == revealed_letter:
+                    visuals[index] = letter
+                    empty_spots -= 1
+            db_operations.remove_user_ticket(user)
+        
+        if empty_spots == 0:
+            if self.get_true_or_false_value:
+                ticket = 1
+            db_operations.update_account_after_won_game(
+                user, good_guesses, wrong_guesses, EASY_MODE_POINTS, ticket
+            )
+            flash(f"Secret word was - {word_to_guess}", "danger")
+            return redirect("/victory")
+
+        image = self.get_image_path(current_tries, difficulty)
+        
+        return render_template(
+            f"{difficulty}.html",
+            animal_type=animal_type,
+            tries=current_tries,
             wrong_letters=wrong_letters,
             visuals=visuals,
             usable_letters=usable_letters,
