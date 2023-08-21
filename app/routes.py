@@ -4,12 +4,12 @@ from flask import flash, redirect, render_template, url_for, request
 from flask_login import current_user, login_required, login_user, logout_user
 
 from app import app, bcrypt, db
-from app.db_operations import DBoperatorions
+from app.db_operations import DBoperations
 from app.forms.forms import LoginForm, RegistrationForm
 from app.utils import Utilities
 
 utils = Utilities()
-db_operations = DBoperatorions()
+db_operations = DBoperations()
 
 
 @app.route("/", methods=["GET"])

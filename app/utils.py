@@ -5,13 +5,13 @@ from os import path
 from typing import List, Literal
 from flask import flash, redirect, render_template, request
 from app.models.account_model import Account
-from app.db_operations import DBoperatorions
+from app.db_operations import DBoperations
 
 log_file_path = path.join(path.dirname(path.abspath(__file__)), "logging.conf")
 logging.config.fileConfig(log_file_path)
 logger = logging.getLogger("sLogger")
 
-db_operations = DBoperatorions()
+db_operations = DBoperations()
 
 EASY_MODE_POINTS = 10
 MEDIUM_MODE_POINTS = 20
@@ -45,7 +45,7 @@ class Utilities:
     def get_random_animal_type(self) -> str:
         try:
             types = ["amphibians", "birds", "mammals", "reptiles"]
-            return types[random.randint(0, 4)]
+            return types[random.randint(0, 3)]
         except Exception as e:
             logger.error(e)
 

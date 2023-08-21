@@ -13,7 +13,7 @@ logging.config.fileConfig(log_file_path)
 logger = logging.getLogger("sLogger")
 
 
-class DBoperatorions:
+class DBoperations:
     pass
 
     def get_account(self, id: int) -> Account:

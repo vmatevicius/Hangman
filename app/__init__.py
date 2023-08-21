@@ -1,3 +1,15 @@
+# import os
+# from flask import Flask
+# from flask_bcrypt import Bcrypt
+# from flask_login import LoginManager
+# from flask_sqlalchemy import SQLAlchemy
+# basedir = os.path.abspath(os.path.dirname(__file__))
+# app = Flask(__name__)
+# app.config["SECRET_KEY"] = "4654f5dfadsrfasdr54e6rae"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(
+#     basedir, "hangman.db"
+# )
+# app.config["SECRET_KEY"] = "4654f5dfadsrfasdr54e6rae"
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
