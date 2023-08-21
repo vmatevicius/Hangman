@@ -83,7 +83,6 @@ def profile_picture():
 @login_required
 def account():
     user = db_operations.get_account(current_user.get_id())
-    print(user.profile_picture)
     return render_template("account.html", user=user)
 
 
@@ -115,6 +114,11 @@ def add_letter_easy():
     user = db_operations.get_account(current_user.get_id())
     return utils.add_letter(difficulty="easy", user=user)
 
+@app.route("/reveal_letter_easy", methods=["POST"])
+@login_required
+def reveal_letter_easy():
+    user = db_operations.get_account(current_user.get_id())
+    return utils.reveal_letter(difficulty="easy", user=user)
 
 @app.route("/medium", methods=["GET"])
 @login_required
@@ -128,6 +132,11 @@ def add_letter_medium():
     user = db_operations.get_account(current_user.get_id())
     return utils.add_letter(difficulty="medium", user=user)
 
+@app.route("/reveal_letter_medium", methods=["POST"])
+@login_required
+def reveal_letter_medium():
+    user = db_operations.get_account(current_user.get_id())
+    return utils.reveal_letter(difficulty="medium", user=user)
 
 @app.route("/hard", methods=["GET"])
 @login_required
@@ -140,6 +149,12 @@ def hard():
 def add_letter_hard():
     user = db_operations.get_account(current_user.get_id())
     return utils.add_letter(difficulty="hard", user=user)
+
+@app.route("/reveal_letter_hard", methods=["POST"])
+@login_required
+def reveal_letter_hard():
+    user = db_operations.get_account(current_user.get_id())
+    return utils.reveal_letter(difficulty="hard", user=user)
 
 
 @app.route("/defeat")

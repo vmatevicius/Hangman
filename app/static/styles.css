@@ -79,6 +79,15 @@ body {
     color: #fff
 }
 
+.custom-reveal-button {
+    background-color: #7c4dff;
+    color: #fff
+}
+
+.reveal-error-message {
+    color: red
+}
+
 .content-info {
     background: #f9f9f9;
     padding: 40px 0;

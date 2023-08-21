@@ -72,6 +72,8 @@ class DBoperatorions:
                     "games_played": account.games_played_count,
                     "games_lost": account.games_lost_count,
                     "picture_path": account.profile_picture,
+                    "tickets": account.reveal_ticket,
+                    "wrong_guesses": account.wrong_guess_count,
                 }
                 for account in accounts
             ]
@@ -118,7 +120,7 @@ class DBoperatorions:
             )
 
     def update_account_after_won_game(
-        self, account: Account, good_guesses: int, wrong_guesses: int, points: int
+        self, account: Account, good_guesses: int, wrong_guesses: int, points: int, ticket: int
     ) -> bool:
         try:
             account.games_played_count += 1
@@ -126,6 +128,7 @@ class DBoperatorions:
             account.correct_guess_count += good_guesses
             account.wrong_guess_count += wrong_guesses
             account.score += points
+            account.reveal_ticket += ticket
             db.session.commit()
             logger.info(f"'{account.username}' victory updated successfully")
             return True
@@ -133,4 +136,19 @@ class DBoperatorions:
             error = str(e.__dict__["orig"])
             logger.error(
                 f"an arror: '{error}' occured while updating account after won game"
+            )
+
+    def remove_user_ticket(self, account: Account ) -> bool:
+        try:
+            if account.reveal_ticket > 0:
+                account.reveal_ticket -= 1
+                db.session.commit()
+                logger.info(f"'{account.username}' tickets removed successfully")
+                return True
+            else:
+                return False
+        except SQLAlchemyError as e:
+            error = str(e.__dict__["orig"])
+            logger.error(
+                f"an arror: '{error}' occured while removing tickets"
             )
