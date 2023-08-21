@@ -23,7 +23,7 @@ class Utilities:
 
     def get_random_animal_type(self) -> str:
         try:
-            types = ["amphibians", "birds", "mammals", "reptiles", "vertebrates"]
+            types = ["amphibians", "birds", "mammals", "reptiles"]
             return types[random.randint(0, 4)]
         except Exception as e:
             logger.error(e)
@@ -58,7 +58,7 @@ class Utilities:
         except Exception as e:
             logger.error(e)
 
-    def launch_game(self, tries: int, difficulty: Literal["easy", "medium", "hard"]):
+    def launch_game(self, tries: int, difficulty: Literal["easy", "medium", "hard"]) -> str:
         global good_guesses
         global wrong_guesses
         global word_to_guess
@@ -91,7 +91,7 @@ class Utilities:
             image=image,
         )
 
-    def add_letter(self, difficulty: Literal["easy", "medium", "hard"], user: Account):
+    def add_letter(self, difficulty: Literal["easy", "medium", "hard"], user: Account) -> str:
         global wrong_guesses
         global word_to_guess
         global wrong_letters
