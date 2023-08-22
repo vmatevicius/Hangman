@@ -83,7 +83,25 @@ def profile_picture():
 @login_required
 def account():
     user = db_operations.get_account(current_user.get_id())
-    return render_template("account.html", user=user)
+    transactions = db_operations.get_user_transactions(user)
+    return render_template("account.html", user=user, transactions=transactions)
+
+@app.route("/shop", methods=["GET", "POST"])
+@login_required
+def shop():
+    user = db_operations.get_account(current_user.get_id())
+    if request.method == "GET":
+        return render_template("shop.html", user=user)
+    else:
+        amount = request.form["buy"]
+        price = int(amount) * 20
+        if price <= user.credits:
+            transaction = db_operations.create_transaction(user, price, int(amount))
+            db_operations.update_account_after_purchase(account=user, tickets=transaction.tickets, credits=transaction.price)
+        else:
+            flash(f"Not enough credits", "danger")
+            return redirect("/shop")
+    return render_template("shop.html", user=user)
 
 
 @app.route("/leaderboards", methods=["GET"])

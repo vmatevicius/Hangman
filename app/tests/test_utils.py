@@ -42,6 +42,9 @@ class TestUtils(unittest.TestCase):
     
     def test_get_true_or_false_value(self):
         pass
+    
+    def test_get_credit_count(self):
+        pass
 
 if __name__ == "__main__":
     unittest.main()

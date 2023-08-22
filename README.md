@@ -41,7 +41,7 @@ pip install -r requirements.txt
 python run.py
 ```
 
-### Dockerization (Optional)
+### Dockerization
 
 1. Build Docker containers:
 
@@ -62,6 +62,7 @@ docker compose up
 - Three difficulty modes: easy, medium, and hard
 - Score system based on difficulty: easy (10 points), medium (20 points), hard (50 points)
 - User account summary with statistics on games played, games won/lost, correct/wrong guesses, and best score
+- Ability to reveal letters using tickets
 
 
 ## How to Play

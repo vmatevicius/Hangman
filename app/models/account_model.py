@@ -1,5 +1,7 @@
 from flask_login import UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from sqlalchemy import DateTime
+from datetime import datetime
 
 from run import app, db
 
@@ -21,7 +23,8 @@ class Account(db.Model, UserMixin):
     wrong_guess_count = db.Column(db.Integer, default=0)
     score = db.Column(db.Integer, default=0)
     reveal_ticket = db.Column(db.Integer, default=0)
-
+    credits = db.Column(db.Integer, default=0)
+    
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(app.config["SECRET_KEY"], expires_sec)
         return s.dumps({"user_id": self.id}).decode("utf-8")
@@ -34,3 +37,14 @@ class Account(db.Model, UserMixin):
         except:
             return None
         return Account.query.get(user_id)
+
+
+class Transaction(db.Model):
+    __tablename__ = "transactions"
+    
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column("Data", DateTime, default=datetime.now())
+    price = db.Column("Price", db.Integer)
+    tickets = db.Column("Tickets", db.Integer)
+    account_id = db.Column(db.Integer, db.ForeignKey("accounts.id"))
+    account = db.relationship("Account")

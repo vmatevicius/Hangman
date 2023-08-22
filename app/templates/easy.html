@@ -36,8 +36,8 @@
 <form action="{{ url_for('add_letter_easy') }}" method="POST">
     <div class="center-div">
         <div class="input-group mb-1">
-            <input type="text" name="letter" maxlength="1" class="form-control" placeholder="Guess a letter "
-                aria-label="Letter" aria-describedby="button-addon2" required>
+            <input pattern="[a-z]" type="text" name="letter" maxlength="1" class="form-control"
+                placeholder="Guess a letter " aria-label="Letter" aria-describedby="button-addon2" required>
             <button class="game-button" type="submit" id="button-addon2">Submit</button>
         </div>
     </div>

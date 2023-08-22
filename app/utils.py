@@ -21,6 +21,16 @@ HARD_MODE_POINTS = 30
 class Utilities:
     pass
 
+    def get_credit_count(self, difficulty: Literal["easy", "medium", "hard"]) -> int:
+        try: 
+            if difficulty == "easy":
+                return 5
+            if difficulty == "medium":
+                return 10
+            if difficulty == "hard":
+                return 15
+        except Exception as e:
+                logger.error(e)    
     def get_valid_leter(self, word: str, free_letters: str) -> str:
         while True:
             try:
@@ -152,8 +162,9 @@ class Utilities:
         if empty_spots == 0:
             if self.get_true_or_false_value:
                 ticket = 1
+            credits = self.get_credit_count(difficulty)
             db_operations.update_account_after_won_game(
-                user, good_guesses, wrong_guesses, EASY_MODE_POINTS, ticket
+                user, good_guesses, wrong_guesses, EASY_MODE_POINTS, ticket, credits
             )
             flash(f"Secret word was - {word_to_guess}", "danger")
             return redirect("/victory")
@@ -195,8 +206,9 @@ class Utilities:
         if empty_spots == 0:
             if self.get_true_or_false_value:
                 ticket = 1
+            credits = self.get_credit_count(difficulty)
             db_operations.update_account_after_won_game(
-                user, good_guesses, wrong_guesses, EASY_MODE_POINTS, ticket
+                user, good_guesses, wrong_guesses, EASY_MODE_POINTS, ticket, credits
             )
             flash(f"Secret word was - {word_to_guess}", "danger")
             return redirect("/victory")

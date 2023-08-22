@@ -6,7 +6,7 @@ from typing import Dict, List
 from sqlalchemy.exc import SQLAlchemyError
 
 from app import db
-from app.models.account_model import Account
+from app.models.account_model import Account, Transaction
 
 log_file_path = path.join(path.dirname(path.abspath(__file__)), "logging.conf")
 logging.config.fileConfig(log_file_path)
@@ -120,7 +120,7 @@ class DBoperations:
             )
 
     def update_account_after_won_game(
-        self, account: Account, good_guesses: int, wrong_guesses: int, points: int, ticket: int
+        self, account: Account, good_guesses: int, wrong_guesses: int, points: int, ticket: int, credits: int
     ) -> bool:
         try:
             account.games_played_count += 1
@@ -129,6 +129,7 @@ class DBoperations:
             account.wrong_guess_count += wrong_guesses
             account.score += points
             account.reveal_ticket += ticket
+            account.credits += credits
             db.session.commit()
             logger.info(f"'{account.username}' victory updated successfully")
             return True
@@ -151,4 +152,44 @@ class DBoperations:
             error = str(e.__dict__["orig"])
             logger.error(
                 f"an arror: '{error}' occured while removing tickets"
+            )
+            
+    def get_user_transactions(self, user: Account) -> List[Transaction]:
+        try:
+            transactions = Transaction.query.filter_by(account_id = user.id)
+            logger.info("transactions retrieved successfully")
+            return transactions
+        except SQLAlchemyError as e:
+            error = str(e.__dict__["orig"])
+            logger.error(f"an arror: '{error}' occured while getting all transactions")
+            
+    def create_transaction(
+        self,user: Account, price: int, amount: int) -> Transaction:
+        try:
+            transaction = Transaction(
+                price=price,
+                tickets=amount,
+                account_id = user.id,
+            )
+            db.session.add(transaction)
+            db.session.commit()
+            logger.info(f" transaction for account with id '{transaction.account_id}' created successfully ")
+            return transaction
+        except SQLAlchemyError as e:
+            error = str(e.__dict__["orig"])
+            logger.error(f"an arror: '{error}' occured while creating transaction")
+            
+    def update_account_after_purchase(
+        self, account: Account, tickets: int, credits: int
+    ) -> bool:
+        try:
+            account.reveal_ticket += tickets
+            account.credits -= credits
+            db.session.commit()
+            logger.info(f"'{account.username}' account after purchase updated successfully")
+            return True
+        except SQLAlchemyError as e:
+            error = str(e.__dict__["orig"])
+            logger.error(
+                f"an arror: '{error}' occured while updating account after purchase"
             )

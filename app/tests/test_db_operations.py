@@ -226,6 +226,15 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(mock_account.reveal_ticket, 9)
         self.assertNotEqual(mock_account.reveal_ticket, 7)
         mock_session.commit.assert_called_once()
-        
+    
+    def test_create_transaction(self):
+        pass
+    
+    def test_get_user_transaction(self):
+        pass
+    
+    def test_update_account_after_purchase(self):
+        pass
+    
 if __name__ == "__main__":
     unittest.main()
