@@ -14,7 +14,6 @@ logger = logging.getLogger("sLogger")
 
 
 class DBoperations:
-    pass
 
     def get_account(self, id: int) -> Account:
         try:

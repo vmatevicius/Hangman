@@ -95,7 +95,7 @@ def shop():
         return render_template("shop.html", user=user)
     else:
         amount = request.form["buy"]
-        price = int(amount) * 20
+        price = int(amount) * 30
         if price <= user.credits:
             transaction = db_operations.create_transaction(user, price, int(amount))
             db_operations.update_account_after_purchase(account=user, tickets=transaction.tickets, credits=transaction.price)
@@ -148,7 +148,8 @@ def difficulties():
 @app.route("/easy", methods=["GET"])
 @login_required
 def easy():
-    return utils.launch_game(tries=7, difficulty="easy")
+    user = db_operations.get_account(current_user.get_id())
+    return utils.launch_game(tries=7, difficulty="easy", user=user)
 
 
 @app.route("/add_letter_easy", methods=["POST"])
@@ -166,7 +167,8 @@ def reveal_letter_easy():
 @app.route("/medium", methods=["GET"])
 @login_required
 def medium():
-    return utils.launch_game(tries=5, difficulty="medium")
+    user = db_operations.get_account(current_user.get_id())
+    return utils.launch_game(tries=5, difficulty="medium", user=user)
 
 
 @app.route("/add_letter_medium", methods=["POST"])
@@ -184,7 +186,8 @@ def reveal_letter_medium():
 @app.route("/hard", methods=["GET"])
 @login_required
 def hard():
-    return utils.launch_game(tries=3, difficulty="hard")
+    user = db_operations.get_account(current_user.get_id())
+    return utils.launch_game(tries=3, difficulty="hard", user=user)
 
 
 @app.route("/add_letter_hard", methods=["POST"])

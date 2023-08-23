@@ -14,8 +14,7 @@ logger = logging.getLogger("sLogger")
 db_operations = DBoperations()
 
 class Utilities:
-    pass
-    
+
     def get_credit_count(self, difficulty: Literal["easy", "medium", "hard"]) -> int:
         try: 
             if difficulty == "easy":
@@ -39,7 +38,7 @@ class Utilities:
     
     def get_true_or_false_value(self) -> bool:
         try:
-            random_number = random.randint(1,9)
+            random_number = random.randint(1,3)
             if random_number == 1:
                 return True
             else:
@@ -89,7 +88,7 @@ class Utilities:
         except Exception as e:
             logger.error(e)
 
-    def launch_game(self, tries: int, difficulty: Literal["easy", "medium", "hard"]) -> str:
+    def launch_game(self, tries: int, difficulty: Literal["easy", "medium", "hard"],user: Account,) -> str:
         global good_guesses
         global wrong_guesses
         global word_to_guess
@@ -120,6 +119,7 @@ class Utilities:
             visuals=visuals,
             usable_letters=usable_letters,
             image=image,
+            user=user,
         )
 
     def add_letter(self, difficulty: Literal["easy", "medium", "hard"], user: Account, points: int) -> str:
@@ -155,7 +155,7 @@ class Utilities:
                 flash(f"Secret word was - {word_to_guess}", "danger")
                 return redirect("/defeat")
         if empty_spots == 0:
-            if self.get_true_or_false_value:
+            if self.get_true_or_false_value == True:
                 ticket = 1
             credits = self.get_credit_count(difficulty)
             db_operations.update_account_after_won_game(
@@ -174,6 +174,7 @@ class Utilities:
             visuals=visuals,
             usable_letters=usable_letters,
             image=image,
+            user=user,
         )
         
     def reveal_letter(self, difficulty: Literal["easy", "medium", "hard"], user: Account, points: int) -> str:
@@ -199,7 +200,7 @@ class Utilities:
             db_operations.remove_user_ticket(user)
         
         if empty_spots == 0:
-            if self.get_true_or_false_value:
+            if self.get_true_or_false_value == True:
                 ticket = 1
             credits = self.get_credit_count(difficulty)
             db_operations.update_account_after_won_game(
@@ -218,4 +219,5 @@ class Utilities:
             visuals=visuals,
             usable_letters=usable_letters,
             image=image,
+            user=user,
         )
