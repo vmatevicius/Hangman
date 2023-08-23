@@ -73,7 +73,7 @@ class DBoperations:
                     "games_lost": account.games_lost_count,
                     "picture_path": account.profile_picture,
                     "tickets": account.reveal_ticket,
-                    "wrong_guesses": account.wrong_guess_count,
+                    "credits": account.credits,
                 }
                 for account in accounts
             ]
@@ -192,4 +192,18 @@ class DBoperations:
             error = str(e.__dict__["orig"])
             logger.error(
                 f"an arror: '{error}' occured while updating account after purchase"
+            )
+            
+    def add_credits(
+        self, account: Account, credits: int
+    ) -> bool:
+        try:
+            account.credits += credits
+            db.session.commit()
+            logger.info(f"credits added to '{account.username}' account successfully")
+            return True
+        except SQLAlchemyError as e:
+            error = str(e.__dict__["orig"])
+            logger.error(
+                f"an arror: '{error}' occured while adding credits"
             )

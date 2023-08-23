@@ -17,7 +17,7 @@
                             <th class="text-center">Games Won</th>
                             <th class="text-center">Games Lost</th>
                             <th class="text-center">Tickets </th>
-                            <th class="text-center">Wrong guesses </th>
+                            <th class="text-center">Credits </th>
                         </tr>
                     </thead>
                     {% set count = namespace(value=1) %}
@@ -35,7 +35,7 @@
                             <td>{{user["games_won"]}}</td>
                             <td>{{user["games_lost"]}}</td>
                             <td>{{user["tickets"]}}</td>
-                            <td>{{user["wrong_guesses"]}}</td>
+                            <td>{{user["credits"]}}</td>
                         </tr>
                     </tbody>
                     {% set count.value = count.value + 1 %}

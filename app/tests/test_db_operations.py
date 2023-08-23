@@ -92,7 +92,7 @@ class TestUtils(unittest.TestCase):
             games_lost_count=5,
             profile_picture = "/static/default.png",
             reveal_ticket = 0,
-            wrong_guess_count = 0,
+            credits = 0,
         )
         mock_account_2 = Account(
             username="user2",
@@ -102,7 +102,7 @@ class TestUtils(unittest.TestCase):
             games_lost_count=5,
             profile_picture = "/static/default.png",
             reveal_ticket = 0,
-            wrong_guess_count = 0,
+            credits = 0,
         )
         mock_accounts = [mock_account_1, mock_account_2]
 
@@ -117,7 +117,7 @@ class TestUtils(unittest.TestCase):
                 "games_lost": 5,
                 "picture_path": "/static/default.png",
                 "tickets": 0,
-                "wrong_guesses": 0,
+                "credits": 0,
             },
             {
                 "username": "user2",
@@ -127,7 +127,7 @@ class TestUtils(unittest.TestCase):
                 "games_lost": 5,
                 "picture_path": "/static/default.png",
                 "tickets": 0,
-                "wrong_guesses": 0,
+                "credits": 0,
             },
         ]
         self.assertEqual(result, expected_data)
@@ -234,6 +234,9 @@ class TestUtils(unittest.TestCase):
         pass
     
     def test_update_account_after_purchase(self):
+        pass
+    
+    def test_add_credits(self):
         pass
     
 if __name__ == "__main__":

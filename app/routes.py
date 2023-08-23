@@ -1,3 +1,4 @@
+import random
 from operator import itemgetter
 
 from flask import flash, redirect, render_template, url_for, request
@@ -103,6 +104,30 @@ def shop():
             return redirect("/shop")
     return render_template("shop.html", user=user)
 
+@app.route("/gamble", methods=["GET", "POST"])
+def gamble():
+    
+    user = db_operations.get_account(current_user.get_id())
+    if request.method == "GET":
+        return render_template("gamble.html")
+    random_number = random.randint(1, 6)
+    bet = request.form["bet"]
+    guessed_number = request.form["guessed_number"]
+    if int(bet) > user.credits:
+        flash(f"Not enough credits", "danger")
+        return redirect("/gamble")
+    if random_number != int(guessed_number):
+        flash(f"Wrong guess", "danger")
+        flash(f"the number was - {random_number}", "danger")
+        return redirect("/gamble")
+    
+    if random_number == int(guessed_number):
+        flash(f"You won {int(bet) * 1.5} credits!", "success")
+        db_operations.add_credits(account=user, credits=int(bet) * 1.5)
+        return redirect("/gamble")
+
+    
+    return render_template("gamble.html")
 
 @app.route("/leaderboards", methods=["GET"])
 def leaderboards():
@@ -130,13 +155,13 @@ def easy():
 @login_required
 def add_letter_easy():
     user = db_operations.get_account(current_user.get_id())
-    return utils.add_letter(difficulty="easy", user=user)
+    return utils.add_letter(difficulty="easy", user=user, points= 10)
 
 @app.route("/reveal_letter_easy", methods=["POST"])
 @login_required
 def reveal_letter_easy():
     user = db_operations.get_account(current_user.get_id())
-    return utils.reveal_letter(difficulty="easy", user=user)
+    return utils.reveal_letter(difficulty="easy", user=user, points= 10)
 
 @app.route("/medium", methods=["GET"])
 @login_required
@@ -148,13 +173,13 @@ def medium():
 @login_required
 def add_letter_medium():
     user = db_operations.get_account(current_user.get_id())
-    return utils.add_letter(difficulty="medium", user=user)
+    return utils.add_letter(difficulty="medium", user=user, points= 20)
 
 @app.route("/reveal_letter_medium", methods=["POST"])
 @login_required
 def reveal_letter_medium():
     user = db_operations.get_account(current_user.get_id())
-    return utils.reveal_letter(difficulty="medium", user=user)
+    return utils.reveal_letter(difficulty="medium", user=user, points= 20)
 
 @app.route("/hard", methods=["GET"])
 @login_required
@@ -166,13 +191,13 @@ def hard():
 @login_required
 def add_letter_hard():
     user = db_operations.get_account(current_user.get_id())
-    return utils.add_letter(difficulty="hard", user=user)
+    return utils.add_letter(difficulty="hard", user=user,points= 30)
 
 @app.route("/reveal_letter_hard", methods=["POST"])
 @login_required
 def reveal_letter_hard():
     user = db_operations.get_account(current_user.get_id())
-    return utils.reveal_letter(difficulty="hard", user=user)
+    return utils.reveal_letter(difficulty="hard", user=user, points= 30)
 
 
 @app.route("/defeat")

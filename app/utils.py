@@ -13,14 +13,9 @@ logger = logging.getLogger("sLogger")
 
 db_operations = DBoperations()
 
-EASY_MODE_POINTS = 10
-MEDIUM_MODE_POINTS = 20
-HARD_MODE_POINTS = 30
-
-
 class Utilities:
     pass
-
+    
     def get_credit_count(self, difficulty: Literal["easy", "medium", "hard"]) -> int:
         try: 
             if difficulty == "easy":
@@ -127,7 +122,7 @@ class Utilities:
             image=image,
         )
 
-    def add_letter(self, difficulty: Literal["easy", "medium", "hard"], user: Account) -> str:
+    def add_letter(self, difficulty: Literal["easy", "medium", "hard"], user: Account, points: int) -> str:
         global wrong_guesses
         global word_to_guess
         global wrong_letters
@@ -164,7 +159,7 @@ class Utilities:
                 ticket = 1
             credits = self.get_credit_count(difficulty)
             db_operations.update_account_after_won_game(
-                user, good_guesses, wrong_guesses, EASY_MODE_POINTS, ticket, credits
+                user, good_guesses, wrong_guesses, points, ticket, credits
             )
             flash(f"Secret word was - {word_to_guess}", "danger")
             return redirect("/victory")
@@ -181,7 +176,7 @@ class Utilities:
             image=image,
         )
         
-    def reveal_letter(self, difficulty: Literal["easy", "medium", "hard"], user: Account) -> str:
+    def reveal_letter(self, difficulty: Literal["easy", "medium", "hard"], user: Account, points: int) -> str:
         global wrong_guesses
         global word_to_guess
         global wrong_letters
@@ -208,7 +203,7 @@ class Utilities:
                 ticket = 1
             credits = self.get_credit_count(difficulty)
             db_operations.update_account_after_won_game(
-                user, good_guesses, wrong_guesses, EASY_MODE_POINTS, ticket, credits
+                user, good_guesses, wrong_guesses, points, ticket, credits
             )
             flash(f"Secret word was - {word_to_guess}", "danger")
             return redirect("/victory")

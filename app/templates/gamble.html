@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="center-container">
+    {% for message in get_flashed_messages() %}
+    <h2 class="bet-message">{{ message }}</h2>
+    {% endfor %}
+    <div>
+        <h2>
+            <a class="center-text" style="color:#1c2331; text-decoration:none">PlACE A BET</a>
+        </h2>
+    </div>
+
+    <small class="form-text text-muted">Possibility of each number is 16%. Numbers are between 1 and 6. </small>
+    <small class="form-text text-muted">If you try a different number it is your own fault for failing </small>
+    <small class="form-text text-muted">If you guess the random number correctly, you will win 50% of your bet</small>
+    <form action="{{ url_for('gamble') }}" method="POST">
+        <div class="form-group">
+            <label>GUESS THE NUMBER</label>
+            <input pattern="[1-6]" type="number" name="guessed_number" class="form-control" placeholder="Number"
+                required>
+        </div>
+        <div class="form-group">
+            <label>ENTER YOUR BET</label>
+            <input type="number" name="bet" class="form-control" placeholder="Bet" required>
+        </div>
+        <button type="submit" class="btn btn-lg custom-login-button">Submit</button>
+    </form>
+
+</div>
+{% endblock %}
