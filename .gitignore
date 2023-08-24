@@ -1,2 +1,7 @@
 .venv
 .vscode
+*.db
+__pycache__
+test.py
+logfile.log
+db.env

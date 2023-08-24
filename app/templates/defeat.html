@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="center-container">
+    <div class="card-body text-center">
+        <img src="/static/stages/0.png" alt="avatar" class="rounded-circle img-fluid" style="width: 600px;">
+    </div>
+    <h1 class="center-text">YOU LOST!</h1>
+    {% for message in get_flashed_messages() %}
+    <h2 class="defeat-message">{{ message }}</h2>
+    {% endfor %}
+    <a href="/account" class="center-text" style="font-size:xx-large; color: #7c4dff">Account summary</a>
+    <a href="/difficulties" class="center-text" style="font-size:xx-large; color: #7c4dff">Play again</a>
+</div>
+{% endblock %}

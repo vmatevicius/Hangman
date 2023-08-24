@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="center-container">
+    {% for message in get_flashed_messages() %}
+    <h2 class="purchase-error-message">{{ message }}</h2>
+    {% endfor %}
+    <div>
+        <h2>
+            <a class="center-text" style="color:#1c2331;">SHOP</a>
+        </h2>
+        <div>
+            <a style="font-size:larger">One reveal ticket costs 30 Credits!</a>
+        </div>
+        <form action="{{ url_for('shop') }}" method="POST">
+            <div class="center-div">
+                <div class="input-group mb-1">
+                    <input type="number" name="buy" class="form-control" placeholder="amount of tickets"
+                        aria-label="number" aria-describedby="button-addon2" required>
+                    <button class="custom-login-button" type="submit" id="button-addon2">BUY</button>
+                </div>
+            </div>
+        </form>
+
+
+    </div>
+    <div>
+        <a style="font-size:larger">Your balance is : {{ user.credits }} credits</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,70 +1,76 @@
-### Game requirements:
+# Hangman Game App
 
-* max try count - 10
-* every failed attempt - 1 try
-* if 0 tries left - game over
-* ability to register user
-* leaderboards
-* easy/medium/hard modes
-* score system - easy mode - 10points for a win, medium - 20, hard - 50
-* user account summary( games played, games won/lost, correct/wrong guess count, best score)
+Hangman Game App is a classic word-guessing game where players try to guess a hidden word by suggesting letters within a limited number of tries. This repository contains a web-based implementation of the Hangman game with user registration, leaderboards, multiple difficulty modes, and user account summaries.
 
-### Data requirements:
+## Getting Started
 
-* Account table:
-    must have:
-    * Username
-    * Name
-    * Surname
-    * Email adress
-    * Games played count
-    * games won/lost count
-    * correct/wrong guess count
-    * highest achieved score
+Follow these instructions to set up and run the Hangman Game App on your local machine.
 
-### Basic requirements:
+### Prerequisites
 
-* ADD TYPE ANNOTATIONS
-* ADD INFORMATION LOGGING
-* CREATE TESTS
+- Python 3.10 or higher
+- Docker (optional, for Dockerization)
+- Git
+
+### Installation
+
+1. Clone the repository to your local machine:
+
+```bash
+git clone https://github.com/vmatevicius/Hangman.git
+cd Hangman
+```
+ 
+2. Create and activate a virtual environment:
+
+```bash
+python3 -m venv .venv
+source .venv/Scripts/activate
+```
+3. Install the required packages:
+
+```bash
+pip install -r requirements.txt
+```
+
+### Running the App
+
+1. Type this code in terminal
+
+```bash
+python run.py
+```
+
+### Dockerization
+
+1. Build Docker containers:
+
+```bash
+docker compose build --no-cache
+```
+
+2. Run containers:
+
+```bash
+docker compose up
+```
+
+## Features
+
+- User registration and login functionality
+- Leaderboards displaying the top scores
+- Three difficulty modes: easy, medium, and hard
+- Score system based on difficulty: easy (10 points), medium (20 points), hard (50 points)
+- User account summary with statistics on games played, games won/lost, correct/wrong guesses, and best score
+- Ability to reveal letters using tickets
 
 
-### Step 1
-Setting working enviroment:
+## How to Play
 
-* Create github repository
-* Add virtual enviroment, README.md, .gitignore, requirements.txt files.
-* From main branch, create development branch
-  and from development branch out to specific modules/functionalities etc.
-  you are trying to create
-
-### Step 2
-Setting backend(database models,endpoints, crude operations,forms)
-
-* Account:
-    * create account database model
-    * create a form for user registration/ login
-    * create endpoint and add functionality to register new user
-    * create endpoint and add functionality to connect new user
-    * add ability to log out
-    * create crude operations
-
-### Step 3
-
-Dockerizing
-
-### Step 4
-Making the game:
-
-* Create login page
-* Create register page
-* Add log out functionality
-* Create account overview page
-* Create leaderboard page
-* Create main page which lets you choose easy/medium/hard modes
-* Create game pages for each difficulty
-* Add tries count, picture of rope to hang from, place to enter letters,
-  visualization of entered letters(correct/wrong)
-* If the game is lost immediately, redirect to the scoreboard
-* if the game is won, ask if player want's to continue, if not, redirect to the scoreboard
-
+0. Go to http://{your local host}:5000/
+1. Register or log in to your account.
+2. Choose a difficulty mode (easy, medium, or hard).
+3. Guess letters to reveal the hidden word.
+4. Each incorrect guess reduces the remaining tries by 1.
+5. Win the game by guessing the entire word within the allotted number of tries.
+6. Your score is based on the difficulty level and the number of remaining tries.
