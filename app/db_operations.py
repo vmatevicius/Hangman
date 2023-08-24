@@ -206,3 +206,17 @@ class DBoperations:
             logger.error(
                 f"an arror: '{error}' occured while adding credits"
             )
+            
+    def remove_credits(
+        self, account: Account, credits: int
+    ) -> bool:
+        try:
+            account.credits -= credits
+            db.session.commit()
+            logger.info(f"credits removed from '{account.username}' account successfully")
+            return True
+        except SQLAlchemyError as e:
+            error = str(e.__dict__["orig"])
+            logger.error(
+                f"an arror: '{error}' occured while removing credits"
+            )

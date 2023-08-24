@@ -5,3 +5,4 @@ __pycache__
 test.py
 logfile.log
 db.env
+.pytest_cache
