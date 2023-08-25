@@ -202,6 +202,8 @@ class Utilities:
         if empty_spots == 0:
             if self.get_true_or_false_value == True:
                 ticket = 1
+            else:
+                ticket = 0
             credits = self.get_credit_count(difficulty)
             db_operations.update_account_after_won_game(
                 user, good_guesses, wrong_guesses, points, ticket, credits

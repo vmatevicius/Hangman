@@ -4,37 +4,38 @@
 
 
 <div class="center-container">
-    <a style="font-size:larger">All words are in lower case</a>
+    <a style="font-size:larger; color: azure">All words are in lower case</a>
     <div>
-        <a class="center-text" style="font-size:medium;font-weight:bold ">Reveal tickets left - {{ user.reveal_ticket
+        <a class="center-text" style="font-size:medium;font-weight:bold; color:azure ">Reveal tickets left - {{
+            user.reveal_ticket
             }}</a>
     </div>
     {% for message in get_flashed_messages() %}
     <h2 class="reveal-error-message">{{ message }}</h2>
     {% endfor %}
     <div class="card-body text-center">
-        <img src={{image}} alt="avatar" class="rounded-circle img-fluid" style="width: 600px;">
+        <img src={{image}} alt="avatar" class=" img-fluid" style="width: 500px;">
     </div>
-    <a style="font-size:large">Hint: {{ animal_type }}</a>
+    <a style="font-size:large; color:azure">Hint: {{ animal_type }}</a>
     <div>
         {% for spot in visuals %}
-        <span style="font-size:xx-large"> {{spot}} </span>
+        <span style="font-size:xx-large; color:azure"> {{spot}} </span>
         {% endfor %}
     </div>
     <div>
-        <a>free letters: </a>
+        <a style="color:azure;">free letters: </a>
         {% for letter in usable_letters %}
-        <span style="font-size:medium"> {{letter}} </span>
+        <span style="font-size:medium; color:azure"> {{letter}} </span>
         {% endfor %}
     </div>
     <div>
-        <a>wrong letters: </a>
+        <a style="color:azure;">wrong letters: </a>
         {% for letter in wrong_letters %}
         <span style="font-size:medium"> {{letter}} </span>
         {% endfor %}
     </div>
     <div>
-        <a>tries left: {{tries}}</a>
+        <a style="color:azure;">tries left: {{tries}}</a>
     </div>
 </div>
 <form action="{{ url_for('add_letter_easy') }}" method="POST">

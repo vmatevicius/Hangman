@@ -4,11 +4,12 @@ from unittest.mock import MagicMock, patch
 
 from app.db_operations import DBoperations
 
-from app.models.account_model import Account
+from app.models.account_model import Account, Transaction
 
 db_operations = DBoperations()
 
 class TestUtils(unittest.TestCase):
+
     @patch("app.db_operations.Account.query")
     def test_get_account_success(self, mock_query):
         account_id = 1
@@ -192,13 +193,15 @@ class TestUtils(unittest.TestCase):
             wrong_guess_count=10,
             score=20,
             reveal_ticket = 0,
+            credits = 0
         )
+        credits = 0
         ticket = 0
         points = 30
         good_guesses = 5
         wrong_guesses = 6
         result = db_operations.update_account_after_won_game(
-            mock_account, good_guesses, wrong_guesses, points, ticket
+            mock_account, good_guesses, wrong_guesses, points, ticket, credits
         )
         self.assertTrue(result)
         self.assertEqual(mock_account.games_played_count, 6)
@@ -227,17 +230,104 @@ class TestUtils(unittest.TestCase):
         self.assertNotEqual(mock_account.reveal_ticket, 7)
         mock_session.commit.assert_called_once()
     
-    def test_create_transaction(self):
-        pass
+    @patch("app.db_operations.db.session")
+    def test_update_account_after_purchase(self, mock_session):
+        mock_account = Account(
+            username="test_user",
+            games_played_count=5,
+            games_lost_count=3,
+            correct_guess_count=20,
+            wrong_guess_count=10,
+            credits = 30,
+            reveal_ticket = 0,
+        )
+        credits = 30
+        tickets = 1
+        result = db_operations.update_account_after_purchase(
+            mock_account, tickets, credits
+        )
+        self.assertTrue(result)
+        self.assertEqual(mock_account.credits, 0)
+        self.assertNotEqual(mock_account.credits, 30)
+        self.assertEqual(mock_account.reveal_ticket, 1)
+        self.assertNotEqual(mock_account.reveal_ticket, 0)
+        mock_session.commit.assert_called_once()
+
+    @patch("app.db_operations.Account")
+    @patch("app.db_operations.Transaction")
+    @patch("app.db_operations.db.session")
+    def test_create_transaction(self, mock_session, mock_transaction, mock_account):
+        username = "test_user"
+        name = "Test"
+        surname = "User"
+        hashed_password = "hashed_password"
+        email = "test@example.com"
+        profile_picture = "/static/default.png"
+        mock_account_instance = MagicMock()
+        mock_account.return_value = mock_account_instance
+
+        mocked_user = db_operations.create_account(
+            username, name, surname, hashed_password, email, profile_picture
+        )
+        
+        
+        
+        price = 30
+        tickets = 1
+        mock_transaction_instance = MagicMock()
+        mock_transaction.return_value = mock_transaction_instance
+
+        result = db_operations.create_transaction(
+          mocked_user, price, tickets
+        )
+
+        self.assertEqual(result, mock_transaction_instance)
+        mock_transaction.assert_called_once_with(
+            price= price,
+            tickets =tickets,
+            account_id = mocked_user.id
+        )
+        self.assertNotEqual(result, "account")
+
+    @patch("app.db_operations.db.session")
+    def test_add_credits(self, mock_session):
+        mock_account = Account(
+            username="test_user",
+            games_played_count=5,
+            games_lost_count=3,
+            correct_guess_count=20,
+            wrong_guess_count=10,
+            credits = 30,
+        )
+        credits = 30
+        result = db_operations.add_credits(
+            mock_account, credits
+        )
+        self.assertTrue(result)
+        self.assertEqual(mock_account.credits, 60)
+        self.assertNotEqual(mock_account.credits, 30)
+        mock_session.commit.assert_called_once()
     
-    def test_get_user_transaction(self):
-        pass
     
-    def test_update_account_after_purchase(self):
-        pass
+    @patch("app.db_operations.db.session")
+    def test_remove_credits(self,mock_session):
+        mock_account = Account(
+            username="test_user",
+            games_played_count=5,
+            games_lost_count=3,
+            correct_guess_count=20,
+            wrong_guess_count=10,
+            credits = 30,
+        )
+        credits = 30
+        result = db_operations.remove_credits(
+            mock_account, credits
+        )
+        self.assertTrue(result)
+        self.assertEqual(mock_account.credits, 0)
+        self.assertNotEqual(mock_account.credits, 30)
+        mock_session.commit.assert_called_once()
     
-    def test_add_credits(self):
-        pass
     
 if __name__ == "__main__":
     unittest.main()

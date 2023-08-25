@@ -2,7 +2,7 @@ import unittest
 from typing import List
 
 from app.utils import Utilities
-from app.tests.data_for_tests.utils_test_data import amphibians
+from app.tests.data_for_tests.utils_test_data import amphibians, valid_leters
 
 utils = Utilities()
 
@@ -38,13 +38,19 @@ class TestUtils(unittest.TestCase):
         self.assertIsInstance(utils.create_game_board(lenght=5), List)
     
     def test_get_valid_leter(self):
-        pass
-    
+        self.assertIn(utils.get_valid_leter(word="word", free_letters=valid_leters), valid_leters)
+        self.assertNotEqual(utils.get_valid_leter(word="word", free_letters=valid_leters), "A")
+        self.assertIsInstance(utils.get_valid_leter(word="word", free_letters=valid_leters), str)
+        
     def test_get_true_or_false_value(self):
-        pass
+        self.assertIn(utils.get_true_or_false_value(), [True,False])
+        self.assertIsInstance(utils.get_true_or_false_value(), bool)
     
     def test_get_credit_count(self):
-        pass
-
+        self.assertEqual(utils.get_credit_count(difficulty="easy"), 5)
+        self.assertEqual(utils.get_credit_count(difficulty="medium"), 10)
+        self.assertEqual(utils.get_credit_count(difficulty="hard"), 15)
+        self.assertIsInstance(utils.get_credit_count(difficulty="easy"), int)
+        
 if __name__ == "__main__":
     unittest.main()

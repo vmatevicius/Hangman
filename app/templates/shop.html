@@ -8,10 +8,10 @@
     {% endfor %}
     <div>
         <h2>
-            <a class="center-text" style="color:#1c2331;">SHOP</a>
+            <a class="center-text" style="color:azure;">SHOP</a>
         </h2>
         <div>
-            <a style="font-size:larger">One reveal ticket costs 30 Credits!</a>
+            <a style="font-size:larger; color:azure;">One reveal ticket costs 30 Credits!</a>
         </div>
         <form action="{{ url_for('shop') }}" method="POST">
             <div class="center-div">
@@ -26,7 +26,7 @@
 
     </div>
     <div>
-        <a style="font-size:larger">Your balance is : {{ user.credits }} credits</a>
+        <a style="font-size:larger; color:azure;">Your balance is : {{ user.credits }} credits</a>
     </div>
 </div>
 {% endblock %}

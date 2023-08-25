@@ -8,3 +8,5 @@ amphibians = [
     "tortoise",
     "turtle",
 ]
+
+valid_leters = "abcdefghijklmnopqrstuvwxyz"
