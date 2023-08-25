@@ -1,92 +1,92 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section style="background-color: #eee;">
+<section style="background-color:rgb(66, 65, 65);">
     <div class="row">
         <div class="col-lg-4">
-            <div class="card mb-4">
+            <div class="card mb-4" style="background-color:rgb(66, 65, 65);">
                 <div class="card-body text-center">
                     <img src="{{ user.profile_picture }}" alt="avatar" class="rounded-circle img-fluid"
                         style="width: 150px;height: 200px">
-                    <h5 class="my-3">username - {{ user.username }}</h5>
-                    <p class="text-muted mb-1">name - {{ user.name }}</p>
-                    <p class="text-muted mb-4">surname - {{ user.surname }}</p>
-                    <p class="text-muted mb-4">email - {{ user.email}}</p>
+                    <h5 class="my-3" style="color:azure">username - {{ user.username }}</h5>
+                    <p class=" mb-1" style="color:azure">name - {{ user.name }}</p>
+                    <p class=" mb-4" style="color:azure">surname - {{ user.surname }}</p>
+                    <p class=" mb-4" style="color:azure">email - {{ user.email}}</p>
                 </div>
             </div>
         </div>
         <div class="col-lg-8">
-            <div class="card mb-4">
+            <div class="card mb-4" style="background-color:rgb(66, 65, 65);">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-3">
-                            <p class="mb-0">Score</p>
+                            <p class="mb-0" style="color:azure">Score</p>
                         </div>
                         <div class="col-sm-9">
-                            <p class="text-muted mb-0">{{ user.score}}</p>
+                            <p class=" mb-0" style="color:azure">{{ user.score}}</p>
                         </div>
                     </div>
                     <hr>
                     <div class="row">
                         <div class="col-sm-3">
-                            <p class="mb-0">Games played</p>
+                            <p class="mb-0" style="color:azure">Games played</p>
                         </div>
                         <div class="col-sm-9">
-                            <p class="text-muted mb-0">{{ user.games_played_count}}</p>
+                            <p class=" mb-0" style="color:azure">{{ user.games_played_count}}</p>
                         </div>
                     </div>
                     <hr>
                     <div class="row">
                         <div class="col-sm-3">
-                            <p class="mb-0">Games won</p>
+                            <p class="mb-0" style="color:azure">Games won</p>
                         </div>
                         <div class="col-sm-9">
-                            <p class="text-muted mb-0">{{ user.games_won_count}}</p>
+                            <p class="mb-0" style="color:azure">{{ user.games_won_count}}</p>
                         </div>
                     </div>
                     <hr>
                     <div class="row">
                         <div class="col-sm-3">
-                            <p class="mb-0">Games lost</p>
+                            <p class="mb-0" style="color:azure">Games lost</p>
                         </div>
                         <div class="col-sm-9">
-                            <p class="text-muted mb-0">{{ user.games_lost_count}}</p>
+                            <p class=" mb-0" style="color:azure">{{ user.games_lost_count}}</p>
                         </div>
                     </div>
                     <hr>
                     <div class="row">
                         <div class="col-sm-3">
-                            <p class="mb-0">Correct guesses</p>
+                            <p class="mb-0" style="color:azure">Correct guesses</p>
                         </div>
                         <div class="col-sm-9">
-                            <p class="text-muted mb-0">{{ user.correct_guess_count}}</p>
+                            <p class=" mb-0" style="color:azure">{{ user.correct_guess_count}}</p>
                         </div>
                     </div>
                     <hr>
                     <div class="row">
                         <div class="col-sm-3">
-                            <p class="mb-0">Wrong guesses</p>
+                            <p class="mb-0" style="color:azure">Wrong guesses</p>
                         </div>
                         <div class="col-sm-9">
-                            <p class="text-muted mb-0">{{ user.wrong_guess_count}}</p>
+                            <p class=" mb-0" style="color:azure">{{ user.wrong_guess_count}}</p>
                         </div>
                     </div>
                     <hr>
                     <div class="row">
                         <div class="col-sm-3">
-                            <p class="mb-0">Tickets</p>
+                            <p class="mb-0" style="color:azure">Tickets</p>
                         </div>
                         <div class="col-sm-9">
-                            <p class="text-muted mb-0">{{ user.reveal_ticket}}</p>
+                            <p class=" mb-0" style="color:azure">{{ user.reveal_ticket}}</p>
                         </div>
                     </div>
                     <hr>
                     <div class="row">
                         <div class="col-sm-3">
-                            <p class="mb-0">Credits</p>
+                            <p class="mb-0" style="color:azure">Credits</p>
                         </div>
                         <div class="col-sm-9">
-                            <p class="text-muted mb-0">{{ user.credits}}</p>
+                            <p class=" mb-0" style="color:azure">{{ user.credits}}</p>
                         </div>
                     </div>
                 </div>
@@ -96,23 +96,23 @@
     </div>
 </section>
 <div style="text-align: center; margin-bottom: 10px;">
-    <span style="font-size: larger;">Purchases:</span>
+    <span style="font-size: larger; color:azure;">Purchases:</span>
 </div>
 
 <table class="table">
     <thead class="text-center">
         <tr>
-            <th scope="col">Date</th>
-            <th scope="col">Price</th>
-            <th scope="col">Amount</th>
+            <th scope="col" style="color:azure;">Date</th>
+            <th scope="col" style="color:azure;">Price</th>
+            <th scope="col" style="color:azure;">Amount</th>
         </tr>
     </thead>
     {% for transaction in transactions %}
     <tbody class="text-center">
         <tr>
-            <td>{{transaction.date}}</td>
-            <td>{{transaction.price}}</td>
-            <td>{{transaction.tickets}}</td>
+            <td style="color:azure;">{{transaction.date}}</td>
+            <td style="color:azure;">{{transaction.price}}</td>
+            <td style="color:azure;">{{transaction.tickets}}</td>
         </tr>
     </tbody>
     {% endfor %}

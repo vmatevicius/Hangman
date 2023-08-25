@@ -119,7 +119,7 @@ def gamble():
     if random_number != int(guessed_number):
         flash(f"Wrong guess", "danger")
         flash(f"the number was - {random_number}", "danger")
-        db_operations.remove_credits(account=user, credits=int(bet) * 1.5)
+        db_operations.remove_credits(account=user, credits=int(bet))
         return redirect("/gamble")
     
     if random_number == int(guessed_number):

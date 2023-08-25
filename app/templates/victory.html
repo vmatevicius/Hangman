@@ -3,9 +3,9 @@
 {% block content %}
 
 <div class="center-container">
-    <h1 class="center-text">YOU WON!</h1>
+    <h2 class="center-text" style="color:azure;">YOU WON!</h2>
     {% for message in get_flashed_messages() %}
-    <h2 class="victory-message">{{ message }}</h2>
+    <h2 class="victory-message" style="color:azure;">{{ message }}</h2>
     {% endfor %}
     <a href="/account" class="center-text" style="font-size:xx-large; color: #7c4dff">Account summary</a>
     <a href="/difficulties" class="center-text" style="font-size:xx-large; color: #7c4dff">Play again</a>

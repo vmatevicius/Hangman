@@ -2,40 +2,41 @@
 
 {% block content %}
 
-<section class="content-info">
-    <div class="container-fluid paddings-mini">
+<section class="content-info" style="background-color:rgb(66, 65, 65);">
+    <div class="container-fluid paddings-mini" style="background-color:rgb(66, 65, 65);">
         <div class="row">
-            <div class="col-lg-12">
-                <table class="table-striped table-responsive table-hover result-point">
+            <div class="col-lg-12" style="background-color:rgb(66, 65, 65);">
+                <table class="table-striped table-responsive table-hover result-point"
+                    style="background-color:rgb(66, 65, 65);">
                     <thead class="point-table-head">
-                        <tr>
-                            <th class="text-left">No</th>
-                            <th class="text-left">Photo</th>
-                            <th class="text-left">Username</th>
-                            <th class="text-center">Score</th>
-                            <th class="text-center">Games Played</th>
-                            <th class="text-center">Games Won</th>
-                            <th class="text-center">Games Lost</th>
-                            <th class="text-center">Tickets </th>
-                            <th class="text-center">Credits </th>
+                        <tr style="background-color:rgb(66, 65, 65);">
+                            <th class="text-left" style="color:azure">No</th>
+                            <th class="text-left" style="color:azure">Photo</th>
+                            <th class="text-left" style="color:azure">Username</th>
+                            <th class="text-center" style="color:azure">Score</th>
+                            <th class="text-center" style="color:azure">Games Played</th>
+                            <th class="text-center" style="color:azure">Games Won</th>
+                            <th class="text-center" style="color:azure">Games Lost</th>
+                            <th class="text-center" style="color:azure">Tickets </th>
+                            <th class="text-center" style="color:azure">Credits </th>
                         </tr>
                     </thead>
                     {% set count = namespace(value=1) %}
                     {% for user in sorted_user_data %}
                     <tbody class="text-center">
-                        <tr>
-                            <td class="text-left number">{{ count.value }} <i class="fa fa-caret-up"
+                        <tr style="background-color:rgb(66, 65, 65);">
+                            <td class="text-left number" style="color:azure">{{ count.value }} <i class="fa fa-caret-up"
                                     aria-hidden="true"></i></td>
                             <td class="text-left">
                                 <img style="height: 40px" src="{{user['picture_path']}}" alt="default">
                             </td>
-                            <td>{{user["username"]}}</td>
-                            <td>{{user["score"]}}</td>
-                            <td>{{user["games_played"]}}</td>
-                            <td>{{user["games_won"]}}</td>
-                            <td>{{user["games_lost"]}}</td>
-                            <td>{{user["tickets"]}}</td>
-                            <td>{{user["credits"]}}</td>
+                            <td style="color:azure">{{user["username"]}}</td>
+                            <td style="color:azure">{{user["score"]}}</td>
+                            <td style="color:azure">{{user["games_played"]}}</td>
+                            <td style="color:azure">{{user["games_won"]}}</td>
+                            <td style="color:azure">{{user["games_lost"]}}</td>
+                            <td style="color:azure">{{user["tickets"]}}</td>
+                            <td style="color:azure">{{user["credits"]}}</td>
                         </tr>
                     </tbody>
                     {% set count.value = count.value + 1 %}
