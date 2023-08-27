@@ -11,7 +11,7 @@ Follow these instructions to set up and run the Hangman Game App on your local m
 ### Prerequisites
 
 - Python 3.10 or higher
-- Docker (optional, for Dockerization)
+- Docker
 - Git
 
 ### Installation

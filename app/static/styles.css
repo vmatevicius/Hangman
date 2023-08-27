@@ -192,6 +192,7 @@ h1:hover::before {
 }
 
 h1::before {
+    opacity: 0.3;
     content: " ";
     display: block;
     position: absolute;
@@ -206,6 +207,7 @@ h1::before {
 }
 
 .green-difficulty::before {
+    opacity: 0.3;
     content: " ";
     display: block;
     position: absolute;
@@ -220,6 +222,7 @@ h1::before {
 }
 
 .red-difficulty::before {
+    opacity: 0.3;
     content: " ";
     display: block;
     position: absolute;
@@ -234,6 +237,7 @@ h1::before {
 }
 
 .yellow-difficulty::before {
+    opacity: 0.3;
     content: " ";
     display: block;
     position: absolute;
