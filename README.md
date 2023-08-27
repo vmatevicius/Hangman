@@ -59,7 +59,7 @@ docker compose up
 
 # Features
 
-### User registration and login functionality
+- ### User registration and login functionality
 
 #### Login example
 
@@ -69,39 +69,39 @@ docker compose up
 
 ![Registration](/app/static/gifs/registration.gif "Registration")
 
-### Leaderboards displaying the top scores
+- ### Leaderboards displaying the top scores
 
 #### Leaderboards example
 
 ![Leaderboards](/app/static/gifs/leaderboards.gif "Leaderboards")
 
-### Three difficulty modes: easy, medium, and hard
+- ### Three difficulty modes: easy, medium, and hard
 
 #### Difficulties example
 
 ![Difficulties](/app/static/difficulties.png "Difficulties")
 
-### Score system based on difficulty: easy (10 points), medium (20 points), hard (30 points)
+- ### Score system based on difficulty: easy (10 points), medium (20 points), hard (30 points)
 
-### User account summary with statistics on games played, games won/lost, correct/wrong guesses
+- ### User account summary with statistics on games played, games won/lost, correct/wrong guesses
 
 #### Summary example
 
 ![Summary](/app/static/gifs/account.gif "Summary")
 
-### Letter reveal tickets
+- ### Letter reveal tickets
 
-### Credit currency
+- ### Credit currency
 
-### Ability to reveal letters using tickets
+- ### Ability to reveal letters using tickets
 
-### Gambling
+- ### Gambling
 
 #### Gambling example
 
 ![Gambling](/app/static/gifs/gambling.gif "Gambling")
 
-### Shop where you can buy tickets
+- ### Shop where you can buy tickets
 
 #### Shop example
 
