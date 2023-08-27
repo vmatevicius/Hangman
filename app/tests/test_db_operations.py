@@ -3,7 +3,6 @@ from typing import List
 from unittest.mock import MagicMock, patch
 
 from app.db_operations import DBoperations
-
 from app.models.account_model import Account, Transaction
 
 db_operations = DBoperations()

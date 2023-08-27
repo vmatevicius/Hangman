@@ -1,7 +1,8 @@
+from datetime import datetime
+
 from flask_login import UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from sqlalchemy import DateTime
-from datetime import datetime
 
 from run import app, db
 

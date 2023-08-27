@@ -1,7 +1,7 @@
 import random
 from operator import itemgetter
 
-from flask import flash, redirect, render_template, url_for, request
+from flask import flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 
 from app import app, bcrypt, db

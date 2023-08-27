@@ -1,8 +1,8 @@
 import unittest
 from typing import List
 
-from app.utils import Utilities
 from app.tests.data_for_tests.utils_test_data import amphibians, valid_leters
+from app.utils import Utilities
 
 utils = Utilities()
 

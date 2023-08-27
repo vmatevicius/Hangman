@@ -3,9 +3,11 @@ import logging.config
 import random
 from os import path
 from typing import List, Literal
+
 from flask import flash, redirect, render_template, request
-from app.models.account_model import Account
+
 from app.db_operations import DBoperations
+from app.models.account_model import Account
 
 log_file_path = path.join(path.dirname(path.abspath(__file__)), "logging.conf")
 logging.config.fileConfig(log_file_path)
