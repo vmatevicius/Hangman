@@ -31,7 +31,7 @@
     <div>
         <a style="color:azure;">wrong letters: </a>
         {% for letter in wrong_letters %}
-        <span style="font-size:medium"> {{letter}} </span>
+        <span style="font-size:medium; color:azure"> {{letter}} </span>
         {% endfor %}
     </div>
     <div>
@@ -42,7 +42,8 @@
     <div class="center-div">
         <div class="input-group mb-1">
             <input pattern="[a-z]" type="text" name="letter" maxlength="1" class="form-control"
-                placeholder="Guess a letter " aria-label="Letter" aria-describedby="button-addon2" required>
+                placeholder="Guess a letter " autocomplete="off" aria-label="Letter" aria-describedby="button-addon2"
+                required>
             <button class="game-button" type="submit" id="button-addon2">Submit</button>
         </div>
         <form action="{{ url_for('reveal_letter_easy') }}" method="POST"></form>

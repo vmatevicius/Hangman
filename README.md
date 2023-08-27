@@ -2,6 +2,8 @@
 
 Hangman Game App is a classic word-guessing game where players try to guess a hidden word by suggesting letters within a limited number of tries. This repository contains a web-based implementation of the Hangman game with user registration, leaderboards, multiple difficulty modes, and user account summaries.
 
+![Play](/app/static/play.png "Homepage")
+
 ## Getting Started
 
 Follow these instructions to set up and run the Hangman Game App on your local machine.
@@ -55,22 +57,66 @@ docker compose build --no-cache
 docker compose up
 ```
 
-## Features
+# Features
 
-- User registration and login functionality
-- Leaderboards displaying the top scores
-- Three difficulty modes: easy, medium, and hard
-- Score system based on difficulty: easy (10 points), medium (20 points), hard (50 points)
-- User account summary with statistics on games played, games won/lost, correct/wrong guesses, and best score
-- Ability to reveal letters using tickets
+## User registration and login functionality
 
+#### Login
+
+![Login](/app/static/gifs/login.gif "Login")
+
+#### Registration
+
+![Registration](/app/static/gifs/registration.gif "Registration")
+
+## Leaderboards displaying the top scores
+
+#### Leaderboards
+
+![Leaderboards](/app/static/gifs/leaderboards.gif "Leaderboards")
+
+## Three difficulty modes: easy, medium, and hard
+
+![Difficulties](/app/static/difficulties.png "Difficulties")
+
+## Score system based on difficulty: easy (10 points), medium (20 points), hard (30 points)
+
+## User account summary with statistics on games played, games won/lost, correct/wrong guesses
+
+#### Summary
+
+![Summary](/app/static/gifs/account.gif "Summary")
+
+## Letter reveal tickets
+
+## Credit currency
+
+## Ability to reveal letters using tickets
+
+## Gambling
+
+![Gambling](/app/static/gifs/gambling.gif "Gambling")
+
+## Shop where you can buy tickets
+
+![Shop](/app/static/gifs/shop.gif "Shop")
 
 ## How to Play
 
+![victory](/app/static/gifs/victory.gif "victory")
+
+## How to Start
+
 0. Go to http://{your local host}:5000/
+
 1. Register or log in to your account.
+
 2. Choose a difficulty mode (easy, medium, or hard).
+
 3. Guess letters to reveal the hidden word.
+
 4. Each incorrect guess reduces the remaining tries by 1.
+
 5. Win the game by guessing the entire word within the allotted number of tries.
+
 6. Your score is based on the difficulty level and the number of remaining tries.
