@@ -59,53 +59,61 @@ docker compose up
 
 # Features
 
-## User registration and login functionality
+### User registration and login functionality
 
-#### Login
+#### Login example
 
 ![Login](/app/static/gifs/login.gif "Login")
 
-#### Registration
+#### Registration example
 
 ![Registration](/app/static/gifs/registration.gif "Registration")
 
-## Leaderboards displaying the top scores
+### Leaderboards displaying the top scores
 
-#### Leaderboards
+#### Leaderboards example
 
 ![Leaderboards](/app/static/gifs/leaderboards.gif "Leaderboards")
 
-## Three difficulty modes: easy, medium, and hard
+### Three difficulty modes: easy, medium, and hard
+
+#### Difficulties example
 
 ![Difficulties](/app/static/difficulties.png "Difficulties")
 
-## Score system based on difficulty: easy (10 points), medium (20 points), hard (30 points)
+### Score system based on difficulty: easy (10 points), medium (20 points), hard (30 points)
 
-## User account summary with statistics on games played, games won/lost, correct/wrong guesses
+### User account summary with statistics on games played, games won/lost, correct/wrong guesses
 
-#### Summary
+#### Summary example
 
 ![Summary](/app/static/gifs/account.gif "Summary")
 
-## Letter reveal tickets
+### Letter reveal tickets
 
-## Credit currency
+### Credit currency
 
-## Ability to reveal letters using tickets
+### Ability to reveal letters using tickets
 
-## Gambling
+### Gambling
+
+#### Gambling example
 
 ![Gambling](/app/static/gifs/gambling.gif "Gambling")
 
-## Shop where you can buy tickets
+### Shop where you can buy tickets
+
+#### Shop example
 
 ![Shop](/app/static/gifs/shop.gif "Shop")
 
-## How to Play
+### How to Play
+
+#### Gameplay example
 
 ![victory](/app/static/gifs/victory.gif "victory")
 
-## How to Start
+### How to Start
 
 0. Go to http://{your local host}:5000/
 
